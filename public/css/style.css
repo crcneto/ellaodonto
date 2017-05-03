@@ -1,0 +1,12 @@
+/*
+* Override Bootstrap
+*/
+
+.mandatory_field{
+    font-weight: bold;
+    color: red;
+}
+
+thead{
+    font-weight: bolder;
+}
