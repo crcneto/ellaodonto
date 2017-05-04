@@ -1,15 +1,20 @@
 create table usuario(
     id serial unique not null,
-    nome varchar(60) not null,
+    nome varchar(120) not null,
     email varchar(120) not null unique,
+    apelido varchar(120),
+    sexo integer not null default 1,
     senha varchar not null,
+    datanasc date, 
     ts timestamp default now(),
-    acesso integer default 1,
+    secretaria integer,
+    profissional integer,
+    sysadmin integer,
     status integer default 1
 );
 
 
-insert into usuario (nome, email, senha, datanasc, acesso, status) values ('Claudio', 'claudiorcneto@yahoo.com.br', md5('0000'), 9, 2);
+insert into usuario (nome, email, apelido, senha, datanasc, secretaria, profissional, sysadmin, status) values ('Claudio Neto', 'claudiorcneto@yahoo.com.br', 'Neto', md5('0000'), '1981-03-10', 1, 1, 1, 2);
 
 create table ultimoacesso(
     id serial unique not null,
@@ -17,13 +22,6 @@ create table ultimoacesso(
     login timestamp default now()
 );
 
-create table profissional(
-    id serial unique not null,
-    usuario integer references usuario(id),
-    apelido varchar(60),
-    sexo integer default 1,
-    status integer default 2
-);
 
 create table area(
     id serial unique not null,
@@ -43,7 +41,7 @@ create table especialidade(
 create table paciente(
     id serial unique not null,
     usuario integer references usuario(id),
-    nome varchar(60) not null,
+    nome varchar(120) not null,
     dn date,
     sexo integer not null default 1,
     ts timestamp default now(),

@@ -4,15 +4,30 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Usuario_model extends CI_Model {
+    
+    /*
+     * id serial unique not null,
+    nome varchar(120) not null,
+    email varchar(120) not null unique,
+    apelido varchar(120),
+    sexo integer not null default 1,
+    senha varchar not null,
+    datanasc date, 
+    ts timestamp default now(),
+    secretaria integer,
+    profissional integer,
+    sysadmin integer,
+    status integer default 1
+     */
 
     public function getAll() {
-        $sql = "select id, nome, email, acesso, status from usuario order by nome";
+        $sql = "select id, nome, email, apelido, sexo, datanasc, ts, secretaria, profissional, sysadmin, status from usuario order by nome";
         $q = $this->db->query($sql);
         return $q->result_array();
     }
 
     public function get($id) {
-        $sql = "select * from usuario where id=? order by nome";
+        $sql = "select * from usuario where id=? limit 1";
         $q = $this->db->query($sql, [$id]);
         if ($q->num_rows < 1) {
             throw new Exception("Usuário não encontrado.");
@@ -27,7 +42,6 @@ class Usuario_model extends CI_Model {
      * 
      */
     public function getAllById() {
-        $this->db->where('status', 2);
         $this->db->order_by('nome', 'ASC');
         $r = $this->db->get('usuario');
         $a = $r->result_array();
@@ -43,7 +57,7 @@ class Usuario_model extends CI_Model {
         if (!$this->exists($email)) {
             throw new Exception("Usuário não encontrado.");
         }
-        $sql = "select id, nome, email, acesso, status from usuario where email=? limit 1";
+        $sql = "select id, nome, email, apelido, sexo, datanasc, ts, secretaria, profissional, sysadmin, status from usuario where email=? limit 1";
         $r = $this->db->query($sql, [$email]);
         $u = $r->result_array();
         return $u[0];

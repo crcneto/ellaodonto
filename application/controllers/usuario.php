@@ -21,17 +21,10 @@ class Usuario extends CI_Controller {
     public function index() {
 
         //checa a autenticação
-        $this->auth->checkAuth('usuario');
+        //$this->auth->checkAuth('usuario');
 
         $req = array();
         $toView = array();
-
-        $toView['acessos'] = [
-            '1' => 'usuario',
-            '3' => 'secretaria',
-            '5' => 'profissional',
-            '9' => 'webmaster'
-        ];
 
         $toView['status'] = [
             '0' => 'Desativado',
@@ -39,7 +32,7 @@ class Usuario extends CI_Controller {
             '2' => 'Ativo',
             '3' => 'Bloqueado'
         ];
-        
+
         try {
             if ($this->input->post('id')) {
                 $id = $this->input->post('id');
@@ -52,16 +45,16 @@ class Usuario extends CI_Controller {
             }
 
             $toView['req'] = $req;
-            
-            $usuarios = $this->usuario_model->getAll();
+
+            $usuarios = $this->usuario_model->getAllById();
             $toView['usuarios'] = $usuarios;
         } catch (Exception $ex) {
             $this->msg->erro($ex->getMessage());
+        } finally {
+            $this->load->view('inc/header_view');
+            $this->load->view('usuario/usuario_view', $toView);
+            $this->load->view('inc/footer_view');
         }
-
-        $this->load->view('inc/header_view');
-        $this->load->view('usuario/usuario_view', $toView);
-        $this->load->view('inc/footer_view');
     }
 
     public function insert() {
@@ -83,12 +76,12 @@ class Usuario extends CI_Controller {
             $fixo = $this->input->post('fixo');
             $obs = $this->input->post('obs');
             $status = $this->input->post('status');
-            
-            $cpfcnpj = preg_replace( '/[^0-9]/is', '', $cpfcnpj );
+
+            $cpfcnpj = preg_replace('/[^0-9]/is', '', $cpfcnpj);
             $req = [
                 'nome' => $nome,
                 'email' => $email,
-                'cpfcnpj' => (int)$cpfcnpj,
+                'cpfcnpj' => (int) $cpfcnpj,
                 'tipo' => $tipo,
                 'gerar' => $gerar,
                 'celular' => $celular,

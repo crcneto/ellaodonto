@@ -18,7 +18,7 @@
                             </select>
                         <?php } ?>
 <?php } ?>
-                    <label>Nome do profissional</label> <a href="#" id="nm" class="btn btn-link btn-sm">(copiar)</a>
+                    <label>Nome de tratamento</label> <a href="#" id="nm" class="btn btn-link btn-sm">(copiar)</a>
                     <input type="text" name="nome" id="nome" class="form-control" <?php if (isset($pro)) {
     echo $pro['nome'];
 } ?>/>
