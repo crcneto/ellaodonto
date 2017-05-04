@@ -1,7 +1,9 @@
 create table usuario(
     id serial unique not null,
     nome varchar(120) not null,
+    cpfcnpj bigint not null unique,
     email varchar(120) not null unique,
+    tel varchar(30),
     apelido varchar(120),
     sexo integer not null default 1,
     senha varchar not null,
@@ -14,7 +16,7 @@ create table usuario(
 );
 
 
-insert into usuario (nome, email, apelido, senha, datanasc, secretaria, profissional, sysadmin, status) values ('Claudio Neto', 'claudiorcneto@yahoo.com.br', 'Neto', md5('0000'), '1981-03-10', 1, 1, 1, 2);
+insert into usuario (nome, cpfcnpj, email, tel, apelido, senha, datanasc, secretaria, profissional, sysadmin, status) values ('Claudio Neto', 00468168958, 'claudiorcneto@yahoo.com.br', '47-98425-2559', 'Neto', md5('0000'), '1981-03-10', 1, 1, 1, 2);
 
 create table ultimoacesso(
     id serial unique not null,

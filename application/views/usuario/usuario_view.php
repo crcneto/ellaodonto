@@ -2,7 +2,7 @@
 <div class="container">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <div class="panel-title text-center">Cadastro de Usuário</div>
+            <div class="panel-title text-center">Cadastro de Usuário <a href="<?= site_url('usuario')?>" class="btn btn-link"><?=gly('plus-sign', "Limpar/Novo usuário", "bottom")?></a></div>
         </div>
         <div class="panel-body">
             <form action="<?= site_url('usuario/insert') ?>" method="post">
@@ -26,25 +26,13 @@
                             echo "checked";
                         } ?>/>CNPJ<br>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label>Nome Completo</label><span class="mandatory_field">*</span>&nbsp;<i class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Campo obrigatório"></i>
                         <input type="text" name="nome" class="form-control" value="<?php if (isset($req['nome'])) {
                             echo $req['nome'];
                         } ?>" />
 
                     </div>
-                    <div class="col-md-4">
-                        <label>E-mail</label><span class="mandatory_field">*</span>&nbsp;<i class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Necessário e-mail válido, a senha será enviada para este e-mail."></i>
-                        <input type="text" name="email" class="form-control" value="<?php if (isset($req['email'])) {
-                            echo $req['email'];
-                        } ?>" />
-                    </div>
-                    <div class="col-md-2">
-                        <br><br>
-                        <input type="checkbox" name="gerar" class="checkbox-inline" value="1"/>&nbsp;Enviar senha
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-md-3">
                         <label>Nome de tratamento</label>
                         <input type="text" name="apelido" class="form-control" <?php
@@ -53,19 +41,23 @@
                         }
                         ?>/>
                     </div>
+                    <div class="col-md-2">
+                        <br><br>
+                        <input type="checkbox" name="gerar" class="checkbox-inline" value="1"/>&nbsp;Enviar senha
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-3">
-                        <label>Telefone Celular</label>
+                        <label>Telefone Principal</label>
                         <input type="text" name="celular" class="form-control" <?php if (isset($req['celular'])) {
                             echo "value='" . $req['celular'] . "'";
                         } ?>/>
                     </div>
-                    <div class="col-md-3">
-                        <label>Telefone Fixo</label>
-                        <input type="text" name="fixo" class="form-control" <?php
-                        if (isset($req['fixo'])) {
-                            echo "value='" . $req['fixo'] . "'";
-                        }
-                        ?>/>
+                    <div class="col-md-4">
+                        <label>E-mail</label><span class="mandatory_field">*</span>&nbsp;<i class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Necessário e-mail válido, a senha será enviada para este e-mail."></i>
+                        <input type="text" name="email" class="form-control" value="<?php if (isset($req['email'])) {
+                            echo $req['email'];
+                        } ?>" />
                     </div>
                     <div class="col-md-3">
                         <label>Sexo</label>
@@ -80,33 +72,36 @@
                         <label>Data de Nascimento</label>
                         <input type="text" name="dn" value="<?php if (isset($req['datanasc'])) {
                             echo inverte_data($req['datanasc']);
-                        } ?>" />
-                    </div>
-                    <div class="col-md-3">
-                        <label>Secretária(o)?</label><br>
-                        <input type="checkbox" name="secretaria" value="" />Sim
-                    </div>
-                    <div class="col-md-3">
-                        
-                        <label>Profissional?</label><br>
-                        <input type="checkbox" name="profissional" value="" />Sim
+                            } ?>" class="form-control datepicker"/>
                     </div>
                     <div class="col-md-3">
                         <label>Status</label>
                         <select name="status" class="form-control">
-                            <option value="2">Ativo</option>
-                            <option value="0">Desativado</option>
-                            <option value="1">Pendente</option>
-                            <option value="3">Bloqueado</option>
+                            <?php if(isset($st)) { ?>
+                            <?php if(count($st)>0) { ?>
+                            <?php foreach($st as $k=>$v) { ?>
+                            <option value="<?=$k?>" <?php if(isset($req['status'])) {if($req['status']==$k){echo "selected=''";}}else{if($k==1){echo "selected";}}?>><?=$v?></option>
+                            <?php } ?>
+                            <?php } ?>
+                            <?php } ?>
                         </select>
                     </div>
+                    <div class="col-md-2 text-center">
+                        <label>Secretária(o)?</label><br>
+                        <input type="checkbox" name="secretaria" value="" />Sim
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <label>Profissional?</label><br>
+                        <input type="checkbox" name="profissional" value="" />Sim
+                    </div>
+                    
                 </div>
                     <div class="row text-center">
                         <br>
                         <?php if (isset($req['id'])) {?>
-                            <?=btn("Alterar usuário", "warning", "lg", "Alterar usuário", "top")?>
+                            <?=btn("Alterar usuário", "warning", "lg")?>
                         <?php } else { ?>
-                            <?=btn("Cadastrar", "success", "lg", "Cadastrar usuário", "top")?>
+                            <?=btn("Cadastrar", "success", "lg")?>
                         <?php } ?>
                     </div>
                 

@@ -26,7 +26,7 @@ class Usuario extends CI_Controller {
         $req = array();
         $toView = array();
 
-        $toView['status'] = [
+        $toView['st'] = [
             '0' => 'Desativado',
             '1' => 'Pendente',
             '2' => 'Ativo',
