@@ -91,6 +91,16 @@ class Usuario_model extends CI_Model {
             return false;
         }
     }
+    
+    public function get_id_by_email($email){
+        $sql = "select id from usuario where email=?";
+        $res = $this->db->query($sql, [$email]);
+        if($res->num_rows()>0){
+            return $res->row_array();
+        }else{
+            return null;
+        }
+    }
 
     public function existsId($id) {
         $sql = "select * from usuario where id=?";

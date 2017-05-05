@@ -5,6 +5,7 @@ class Usuario extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('usuario_model');
+        $this->load->model('paciente_model');
     }
 
     public function index() {
@@ -125,6 +126,7 @@ class Usuario extends CI_Controller {
                     throw new Exception("Este endereço de e-mail já está em uso por outro usuário");
                 }
             }
+            $user['email'] = $email;
 
             //TELEFONE PRINCIPAL
             $tel = $this->input->post('tel');
@@ -185,6 +187,9 @@ class Usuario extends CI_Controller {
                 $senhagerada = substr(md5($email . rand()), 0, 10);
                 $senha = md5($senhagerada);
                 $user['senha'] = $senha;
+                
+                $message = "<h2>EllaOdonto</h2><p>Seja bem-vindo ao sistema EllaOdonto.<br>Seu cadastro foi realizado com sucesso.<br>A senha de acesso gerada pelo sistema foi: $senhagerada <br>Agradecemos a prefer&ecirc;ncia!";
+                $this->correio->sendMail($user['email'], "Bem-vindo ao Sistema EllaOdonto!", $message);
             }
             if (isset($user['id'])) {
                 if ($this->usuario_model->update($user)) {
@@ -205,6 +210,18 @@ class Usuario extends CI_Controller {
                 }
 
                 if ($this->usuario_model->insert($user)) {
+                    $uu = $this->usuario_model->get_id_by_email($user['email']);
+                    $pac = [
+                        'usuario'=>$uu['id'],
+                        'nome'=>$user['nome'],
+                        'dn'=>$user['datanasc'],
+                        'sexo'=>$user['sexo'],
+                        'operador'=> $this->session->userdata('operador')
+                    ];
+                    if(!$this->paciente_model->insert($pac)){
+                        throw new Exception("Usuário cadastrado com sucesso, porém houve um erro ao criar o paciente");
+                    }
+                    
                     $this->msg->sucesso('Usuário cadastrado com sucesso.');
                     
                 } else {
@@ -275,12 +292,16 @@ class Usuario extends CI_Controller {
 
     public function changepass() {
 
+        
+        /*
+         * Alterar
+         */
         try {
-            $
-                    $usuario = $this->session->userdata('usuario');
+            
+            $usuario = $this->session->userdata('usuario');
         } catch (Exception $ex) {
             $this->msg->erro($ex->getMessage());
-            redirect(site_url('usuario/editform'));
+            redirect(site_url('usuario/alterarsenha'));
         }
     }
 
