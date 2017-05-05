@@ -72,6 +72,25 @@ class Usuario_model extends CI_Model {
             return false;
         }
     }
+    
+    public function existe_outro_cpf($id, $cpf){
+        $sql = "select * from usuario where id<>? and cpfcnpj=?";
+        $res = $this->db->query($sql, [$id, $cpf]);
+        if($res->num_rows()>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public function existe_outro_email($id, $email){
+        $sql = "select * from usuario where id<>? and email=?";
+        $res = $this->db->query($sql, [$id, $email]);
+        if($res->num_rows()>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     public function existsId($id) {
         $sql = "select * from usuario where id=?";

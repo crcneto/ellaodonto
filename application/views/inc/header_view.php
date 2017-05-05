@@ -42,12 +42,19 @@
                         <li class="active"><a href="<?= base_url() ?>">Inicial <span class="sr-only"></span></a></li>
                         <!--li><a href="#">Link</a></li-->
                         <?php if ($this->session->userdata('usuario') != null) { ?>
-                            <?php if ($this->session->userdata('acesso') >= 3) { ?>
+                            <?php if (true) { ?>
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Consulta <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        <li class="dropdown-header text-center">Cadastros</li>
-                                        <li role="separator" class="divider"></li>
+                                        <li><a href="<?= base_url()?>">Nova Consulta</a></li>
+
+                                    </ul>
+                                </li>
+                            <?php } ?>
+                            <?php if (true) { ?>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cadastros <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
                                         <li><a href="<?= site_url('usuario') ?>">Usuário</a></li>
                                         <li><a href="<?= site_url('paciente') ?>">Paciente</a></li>
                                         <li><a href="<?= site_url('profissional') ?>">Profissional</a></li>
@@ -57,17 +64,6 @@
                                         <li class="dropdown-header text-center">Configurações</li>
                                         <li role="separator" class="divider"></li>
                                         <li><a href="#">Config</a></li>
-                                    </ul>
-                                </li>
-                            <?php } ?>
-                            <?php if ($this->session->userdata('acesso') >= 7) { ?>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Financeiro <span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li class="dropdown-header">Carteira</li>
-                                        <li role="separator" class="divider"></li>
-                                        <li><a href="<?= base_url() ?>expenses">Despesas</a></li>
-
                                     </ul>
                                 </li>
                             <?php } ?>
@@ -94,7 +90,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $this->session->userdata('nome') ?>&nbsp;&nbsp;<i class="glyphicon glyphicon-user"></i>&nbsp;<?=$user['nome']?> <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">Perfil</a></li>
-                                    <li><a href="<?= site_url('usuario/editform') ?>">Alterar senha</a></li>
+                                    <li><a href="<?= site_url('usuario/alterarsenha') ?>">Alterar senha</a></li>
                                     <li><a href="#">Mensageiro</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="<?= site_url('autenticacao/logout') ?>">Sair</a></li>

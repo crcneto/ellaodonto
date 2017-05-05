@@ -14,7 +14,7 @@
                         <label>CPF/CNPJ</label><span class="mandatory_field">*</span>&nbsp;<i class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Campo obrigatório. Somente Números"></i>
                         <input type="text" name="cpfcnpj" class="form-control" value="<?php
                         if (isset($req['cpfcnpj'])) {
-                            echo $req['cpfcnpj'];
+                            echo exibe_cpf($req['cpfcnpj']);
                         }
                         ?>" />
                     </div>
@@ -49,8 +49,8 @@
                 <div class="row">
                     <div class="col-md-3">
                         <label>Telefone Principal</label>
-                        <input type="text" name="celular" class="form-control" <?php if (isset($req['celular'])) {
-                            echo "value='" . $req['celular'] . "'";
+                        <input type="text" name="tel" class="form-control" <?php if (isset($req['tel'])) {
+                            echo "value='" . $req['tel'] . "'";
                         } ?>/>
                     </div>
                     <div class="col-md-4">
@@ -88,12 +88,18 @@
                     </div>
                     <div class="col-md-2 text-center">
                         <label>Secretária(o)?</label><br>
-                        <input type="checkbox" name="secretaria" value="" />Sim
+                        <input type="checkbox" name="secretaria" value="1" <?php if(isset($req['secretaria'])){if($req['secretaria']>=1){echo "checked";}}?> />Sim
                     </div>
                     <div class="col-md-2 text-center">
                         <label>Profissional?</label><br>
-                        <input type="checkbox" name="profissional" value="" />Sim
+                        <input type="checkbox" name="profissional" value="1" <?php if(isset($req['profissional'])){if($req['profissional']>=1){echo "checked";}}?>  />Sim
                     </div>
+                    <?php if($usuario['sysadmin']>=1) { ?>
+                    <div class="col-md-2 text-center">
+                        <label>Administrador?</label><br>
+                        <input type="checkbox" name="sysadmin" value="1"  <?php if(isset($req['sysadmin'])){if($req['sysadmin']>=1){echo "checked";}}?> />Sim
+                    </div>
+                    <?php } ?>
                     
                 </div>
                     <div class="row text-center">
