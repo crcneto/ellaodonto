@@ -76,4 +76,27 @@ class Paciente_model extends CI_Model{
             return false;
         }
     }
+    
+    public function desativar($id){
+        $this->db->from("paciente");
+        $this->db->set(['status'=>0]);
+        $this->db->where(['id'=>$id]);
+        $this->db->update();
+        if($this->db->affected_rows()>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public function ativar($id){
+        $this->db->from("paciente");
+        $this->db->set(['status'=>2]);
+        $this->db->where(['id'=>$id]);
+        $this->db->update();
+        if($this->db->affected_rows()>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

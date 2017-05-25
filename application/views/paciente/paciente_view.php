@@ -23,14 +23,14 @@
                         <?php } ?>
                     <?php } ?>
                     <label>Nome do paciente</label> <a href="#" id="nm" class="btn btn-link btn-sm">(Usuário é o paciente)</a>
-                    <input type="text" name="nome" id="pac_nome" class="form-control" <?php if (isset($paciente)) {echo $paciente['nome'];} ?>/>
+                    <input type="text" name="nome" id="pac_nome" class="form-control" <?php if (isset($paciente)) {echo "value=\"".$paciente['nome']."\"";} ?>/>
                     <?php if (isset($paciente)) { ?>
                         <input type="hidden" name="id" value="<?= $paciente['id'] ?>" />
                     <?php } ?>
                     <label>Data de Nascimento</label> 
-                    <input type="text" name="dn" id="pac_dn" class="form-control datepicker" <?php if (isset($paciente)) {
+                    <input type="text" name="dn" id="pac_dn" class="form-control datepicker" value="<?php if (isset($paciente)) {
     echo inverte_data($paciente['dn']);
-} ?>/>
+} ?>"/>
                     <label>Sexo</label><br>
                     <input type="radio" name="sexo" value="1" <?php if (isset($paciente)) {
     if ($paciente['sexo'] == 1) {
@@ -63,6 +63,7 @@
                     <tr>
                         <th class="text-center">Responsável</th>
                         <th class="text-center">Nome do Paciente</th>
+                        <th class="text-center">Idade</th>
                         <th class="text-center">Data de Nascimento</th>
                         <th class="text-center">Sexo</th>
                         <th class="text-center">Alterar</th>
@@ -76,6 +77,7 @@
                     <tr>
                         <td><?=$usuarios[$v['usuario']]['nome']?></td>
                         <td><?=$v['nome']?></td>
+                        <td class="text-center"><?= idade($v['dn'])?>&nbsp;anos</td>
                         <td class="text-center"><?= inverte_data($v['dn'])?></td>
                         <td class="text-center"><?php if($v['sexo']==1){echo "Masculino";}else{echo "Feminino";}?></td>
                         <td class="text-center">
@@ -106,6 +108,11 @@
             </table>
         </div>
     </div>
+    <?php if(isset($paciente)){ ?>
+    <pre>
+        <?php print_r($paciente); ?>
+    </pre>
+    <?php } ?>
 </div>
 <script>
     $('#nm').click(function () {

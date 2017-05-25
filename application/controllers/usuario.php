@@ -11,7 +11,10 @@ class Usuario extends CI_Controller {
     public function index() {
 
         //checa a autenticação
-        //$this->auth->checkAuth('usuario');
+        $this->auth->checkAuth('usuario');
+        
+        //checa o acesso
+        $this->auth->sec_pro();
 
         $req = array();
         $toView = array();
@@ -24,6 +27,7 @@ class Usuario extends CI_Controller {
         ];
 
         try {
+            
             if ($this->input->post('id')) {
                 $id = $this->input->post('id');
                 $user = $this->usuario_model->get($id);
@@ -53,8 +57,11 @@ class Usuario extends CI_Controller {
     public function insert() {
         
         //Autenticação
+        $this->auth->checkAuth('usuario');
         
         //Permissão
+        $this->auth->sec_pro();
+        
         
         $user = array();
 

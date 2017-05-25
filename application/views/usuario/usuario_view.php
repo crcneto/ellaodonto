@@ -126,7 +126,8 @@
                     <tr>
                         <th class="text-center">Nome</th>
                         <th class="text-center">E-mail</th>
-                        <th class="text-center">Acesso</th>
+                        <th class="text-center">Sexo</th>
+                        <th class="text-center">Data Nascimento</th>
                         <th class="text-center">Status</th>
                         <th class="text-center">Ativar/Desativar</th>
                         <th class="text-center">Editar</th>
@@ -135,34 +136,35 @@
                 </thead>
                 <tbody>
 <?php if (isset($usuarios) && count($usuarios) > 0) { ?>                    
-    <?php foreach ($usuarios as $key => $value) { ?>
+    <?php foreach ($usuarios as $key => $v) { ?>
                             <tr>
-                                <td><?= $value['nome'] ?></td>
-                                <td><?= $value['email'] ?></td>
-                                <td class="text-center"><?= $acessos[$value['acesso']] ?></td>
-                                <td class="text-center"><?= $status[$value['status']] ?></td>
+                                <td><?= $v['nome'] ?></td>
+                                <td><?= $v['email'] ?></td>
+                                <td class="text-center"><?php if($v['sexo']==1){echo "M";}else{echo "F";}?></td>
+                                <td class="text-center"><?= inverte_data($v['datanasc']) ?>&nbsp; <i class="glyphicon glyphicon-gift" title="<?= idade($v['datanasc'])?> anos" data-toggle="tooltip"></i></td>
+                                <td class="text-center"><?= $st[$v['status']] ?></td>
                                 <td class="text-center">
-        <?php if ($value['status'] != 2) { ?>
+        <?php if ($v['status'] != 2) { ?>
                                         <form action="<?= site_url('usuario/ativa') ?>" method="post">
-                                            <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                            <input type="hidden" name="id" value="<?= $v['id'] ?>">
                                             <button type="submit" class="btn btn-success" title="Ativar" data-toggle="tooltip" data-placement="bottom"><i class="glyphicon glyphicon-ok"></i></button>
                                         </form>
         <?php } else { ?>
                                         <form action="<?= site_url('usuario/desativa') ?>" method="post" onsubmit="return confirm('Deseja realmente desativar este usuário?')">
-                                            <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                            <input type="hidden" name="id" value="<?= $v['id'] ?>">
                                             <button type="submit" class="btn btn-danger" title="Desativar" data-toggle="tooltip" data-placement="bottom"><i class="glyphicon glyphicon-remove"></i></button>
                                         </form>
         <?php } ?>
                                 </td>
                                 <td class="text-center">
                                     <form action="<?= site_url('usuario') ?>" method="post">
-                                        <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                        <input type="hidden" name="id" value="<?= $v['id'] ?>">
                                         <button type="submit" class="btn btn-warning" title="Editar informações do usuário" data-toggle="tooltip" data-placement="bottom"><i class="glyphicon glyphicon-edit"></i></button>
                                     </form>
                                 </td>
                                 <td class="text-center">
                                     <form action="<?= site_url('usuario/reset') ?>" method="post" onsubmit="return confirm('Deseja realmente redefinir a senha deste usuário?')">
-                                        <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                        <input type="hidden" name="id" value="<?= $v['id'] ?>">
                                         <button type="submit" class="btn btn-danger" title="Redefinir a senha do Usuário" data-toggle="tooltip" data-placement="bottom"><i class="glyphicon glyphicon-refresh"></i></button>
                                     </form>
                                 </td>

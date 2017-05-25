@@ -14,13 +14,18 @@ class Paciente extends CI_Controller {
         //verifica autenticação
         $this->auth->checkAuth('paciente');
 
-        //verifica acesso
-        $this->auth->checkAccess(3);
 
         //array de parâmetros
         $toView = [];
 
         try {
+
+            //verifica acesso
+            $user = $this->session->userdata('usuario');
+            if (!$user['secretaria'] && !$user['profissional']) {
+                throw new Exception("Desculpe, área não autorizada para o usuário atual");
+            }
+
             //carrega pacientes
             $pacientes = $this->paciente_model->getAllById();
             $toView['pacientes'] = $pacientes;
@@ -52,16 +57,16 @@ class Paciente extends CI_Controller {
         //verifica autenticação
         $this->auth->checkAuth('paciente');
 
-        //verifica acesso
-        $this->auth->checkAccess(3);
+        //permissão
+        $this->auth->sec_pro();
 
         //array de parâmetros
         $toView = [];
 
         try {
-            
+
             $data = array();
-            
+
             if ($this->input->post('id')) {
                 $id = $this->input->post('id');
                 if (!$this->paciente_model->exists($id)) {
@@ -70,14 +75,14 @@ class Paciente extends CI_Controller {
                 $data = $this->paciente_model->getById($id);
                 $toView['paciente'] = $data;
             }
-            
+
             if (!$this->input->post('responsavel')) {
                 throw new Exception("Responsável não identificado");
             }
-            
+
             $this->load->model('usuario_model');
             $usuario = $this->input->post('responsavel');
-            
+
             if (!$this->usuario_model->existsId($usuario)) {
                 throw new Exception('Responsável não encontrado');
             }
@@ -92,14 +97,25 @@ class Paciente extends CI_Controller {
             $sexo = $this->input->post('sexo');
 
 
-            $data = [
-                'usuario' => $usuario,
-                'nome' => $nome,
-                'sexo' => $sexo,
-                'operador' => $this->session->userdata('operador')
-            ];
-            
-            if($this->input->post('dn')){
+            if (isset($id)) {
+                $data = [
+                    'id'=>$id,
+                    'usuario' => $usuario,
+                    'nome' => $nome,
+                    'sexo' => $sexo,
+                    'operador' => $this->session->userdata('operador')
+                ];
+            } else {
+                $data = [
+                    'usuario' => $usuario,
+                    'nome' => $nome,
+                    'sexo' => $sexo,
+                    'operador' => $this->session->userdata('operador')
+                ];
+            }
+
+
+            if ($this->input->post('dn')) {
                 $dn = inverte_data_w_exception($this->input->post('dn'));
                 $data['dn'] = $dn;
             }
@@ -115,15 +131,71 @@ class Paciente extends CI_Controller {
                 if ($this->paciente_model->update($data)) {
                     $this->msg->sucesso("Cadastro de paciente alterado com sucesso");
                     redirect(site_url('paciente'));
-                }else{
+                } else {
                     throw new Exception("Erro ao alterar o cadastro do paciente");
                 }
             }
         } catch (Exception $ex) {
-            if(isset($data)){
+            if (isset($data)) {
                 $toView['paciente'] = $data;
             }
             $this->msg->erro($ex->getMessage());
+            redirect(site_url('paciente'));
+        }
+    }
+
+    public function desativar() {
+        //autenticação
+        $this->auth->checkAuth('paciente');
+
+        //permissão
+        $this->auth->sec_pro();
+
+        try {
+
+            $id = $this->input->post('id');
+            if (!$id || $id == '' || !is_numeric($id)) {
+                throw new Exception("Paciente não identificado");
+            }
+            if (!$this->paciente_model->exists($id)) {
+                throw new Exception("Paciente não localizado");
+            }
+            if ($this->paciente_model->desativar($id)) {
+                $this->msg->sucesso("Paciente desativado");
+            } else {
+                throw new Exception("Erro ao desativar paciente");
+            }
+        } catch (Exception $ex) {
+            $this->msg->erro($ex->getMessage());
+        } finally {
+            redirect(site_url('paciente'));
+        }
+    }
+
+    public function ativar() {
+        //autenticação
+        $this->auth->checkAuth('paciente');
+
+        //permissão
+        $this->auth->sec_pro();
+
+        try {
+
+            $id = $this->input->post('id');
+            if (!$id || $id == '' || !is_numeric($id)) {
+                throw new Exception("Paciente não identificado");
+            }
+            if (!$this->paciente_model->exists($id)) {
+                throw new Exception("Paciente não localizado");
+            }
+            if ($this->paciente_model->ativar($id)) {
+                $this->msg->sucesso("Paciente ativado");
+            } else {
+                throw new Exception("Erro ao ativar paciente");
+            }
+        } catch (Exception $ex) {
+            $this->msg->erro($ex->getMessage());
+        } finally {
             redirect(site_url('paciente'));
         }
     }

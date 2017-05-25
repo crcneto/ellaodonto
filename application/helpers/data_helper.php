@@ -33,6 +33,13 @@ function dateToArray($data){
     } 
 }
 
+function idade($data){
+    $date = new DateTime($data);
+    $now = new DateTime();
+    $interval = $now->diff($date);
+    return $interval->y;
+}
+
 function inverte_data_w_exception($date) {
     $date2 = str_replace('/', '-', $date);
     $d = explode('-', $date2);
