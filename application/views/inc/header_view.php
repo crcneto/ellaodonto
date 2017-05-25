@@ -50,20 +50,24 @@
 
                                     </ul>
                                 </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Agenda <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="<?= base_url('')?>">Agenda</a></li>
+
+                                    </ul>
+                                </li>
                             <?php } ?>
-                            <?php if (true) { ?>
+                            <?php if ($this->auth->sec_pro_menu()) { ?>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cadastros <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="<?= site_url('usuario') ?>">Usuário</a></li>
                                         <li><a href="<?= site_url('paciente') ?>">Paciente</a></li>
-                                        <li><a href="<?= site_url('profissional') ?>">Profissional</a></li>
-                                        <li><a href="<?= site_url('area') ?>">Área</a></li>
-                                        <li><a href="<?= site_url('especialidade') ?>">Especialidade</a></li>
-                                        <li role="separator" class="divider"></li>
+                                        <!--li role="separator" class="divider"></li>
                                         <li class="dropdown-header text-center">Configurações</li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="#">Config</a></li>
+                                        <li><a href="#">Config</a></li-->
                                     </ul>
                                 </li>
                             <?php } ?>
