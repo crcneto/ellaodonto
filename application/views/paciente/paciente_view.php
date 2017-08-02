@@ -61,8 +61,8 @@
             <table class="table table-hover table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th class="text-center">Responsável</th>
                         <th class="text-center">Nome do Paciente</th>
+                        <th class="text-center">Responsável</th>
                         <th class="text-center">Idade</th>
                         <th class="text-center">Data de Nascimento</th>
                         <th class="text-center">Sexo</th>
@@ -75,8 +75,8 @@
                     <?php if (count($pacientes) > 0) { ?>
                         <?php foreach ($pacientes as $k => $v) { ?>
                     <tr>
-                        <td><?=$usuarios[$v['usuario']]['nome']?></td>
-                        <td><?=$v['nome']?></td>
+                        <td><strong><?=$v['nome']?></strong></td>
+                        <td><em><?=$usuarios[$v['usuario']]['nome']?></em></td>
                         <td class="text-center"><?= idade($v['dn'])?>&nbsp;anos</td>
                         <td class="text-center"><?= inverte_data($v['dn'])?></td>
                         <td class="text-center"><?php if($v['sexo']==1){echo "Masculino";}else{echo "Feminino";}?></td>

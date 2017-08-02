@@ -42,12 +42,14 @@ class Paciente_model extends CI_Model{
 
         public function get(){
         $this->db->where('status', 2);
+        $this->db->order_by('nome', 'ASC');
         $res = $this->db->get('paciente');
         return $res->result_array();
     }
     
     
     public function getAllById(){
+        $this->db->order_by('nome', 'ASC');
         $res = $this->db->get('paciente');
         $r = $res->result_array();
         $rr = [];

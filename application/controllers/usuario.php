@@ -45,6 +45,7 @@ class Usuario extends CI_Controller {
 
             $usuario = $this->session->userdata('usuario');
             $toView['usuario'] = $usuario;
+            
         } catch (Exception $ex) {
             $this->msg->erro($ex->getMessage());
         } finally {
@@ -100,6 +101,10 @@ class Usuario extends CI_Controller {
             if (isset($user['id'])) {
                 if ($this->usuario_model->existe_outro_cpf($id)) {
                     throw new Exception("Este CPF/CNPJ já está em uso por outro usuário");
+                }
+            }else{
+                if($this->usuario_model->existe_cpf($cpfcnpj)){
+                    throw new Exception("Este CPF/CNPJ já foi cadastrado com outro usuário");
                 }
             }
             $user['cpfcnpj'] = $cpfcnpj;
@@ -237,7 +242,7 @@ class Usuario extends CI_Controller {
             }
         } catch (Exception $ex) {
             $this->msg->erro($ex->getMessage());
-            $this->session->set_flashdata('req', $user);
+            $this->session->set_flashdata('req', $this->input->post());
         } finally {
             redirect(site_url('usuario'));
         }

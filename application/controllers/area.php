@@ -16,7 +16,9 @@ class Area extends CI_Controller {
             $this->auth->checkAuth('area');
 
             //check access
-            $this->auth->checkAccess(5);
+            if(!$this->auth->administrador()){
+                throw new Exception("É necessário ser administrador para acessar este módulo");
+            }
 
             $toView = array();
 

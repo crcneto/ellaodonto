@@ -22,7 +22,11 @@
                 </div>
                 <div class="col-md-4">
                     <br>
-                    <button type="submit" class="btn btn-success">Enviar</button>
+                    <?php if(isset($area)){ ?>
+                    <button type="submit" class="btn btn-warning">Alterar</button>
+                    <?php } else { ?>
+                    <button type="submit" class="btn btn-success">Cadastrar</button>
+                    <?php }?>
                 </div>
                 <div class="col-md-3"></div>
             </form>

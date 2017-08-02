@@ -71,6 +71,18 @@
                                     </ul>
                                 </li>
                             <?php } ?>
+                            <?php if ($this->auth->administrador()) { ?>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administração <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="<?= site_url('area') ?>">Cadastro de Área</a></li>
+                                        <!--li role="separator" class="divider"></li>
+                                        <li class="dropdown-header text-center">Configurações</li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#">Config</a></li-->
+                                    </ul>
+                                </li>
+                            <?php } ?>
                         <?php } ?>
                     </ul>
 

@@ -49,6 +49,16 @@ class Auth {
         }
     }
     
+    public function administrador(){
+        $us = $this->CI->session->userdata("usuario");
+        if (!$us['sysadmin']) {
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
     public function sec_pro_menu() {
         $us = $this->CI->session->userdata("usuario");
         if (!$us['secretaria'] && !$us['profissional'] && !$us['sysadmin']) {
