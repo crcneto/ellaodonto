@@ -3,20 +3,44 @@
 <html lang="br">
     <head>
         <title>.: Ella Odonto :.</title>
-        <link rel="stylesheet" href="<?= site_url('public/css/bootstrap.min.css') ?>" />
-        <link rel="stylesheet" href="<?= site_url('public/css/style.css') ?>" />
+        <link rel="stylesheet" href="<?= base_url('public/css/bootstrap.min.css') ?>" />
+        <!--Bootstrap Datepicker-->
+        <link rel="stylesheet" href="<?= base_url('public/css/bootstrap-datepicker.css') ?>" />
+        <style>
+            body { padding-bottom: 70px; }
+        </style>
         <link rel="shortcut icon" href="<?= site_url('public/img/dente1.ico') ?>" />
-        <link rel="stylesheet" href="<?= site_url('public/css/bootstrap-select.min.css')?>">
+        <link rel="stylesheet" href="<?= site_url('public/css/bootstrap-select.min.css') ?>">
         <meta charset="utf-8">
-        <script src="<?= site_url('public/js/jquery-3.1.1.min.js') ?>"></script>
-        <script src="<?= site_url('public/js/bootstrap.js') ?>"></script>
-        <script src="<?= site_url('public/js/jquery.maskMoney.min.js') ?>"></script>
-        <script src="<?= site_url('public/js/bootstrap-datepicker.js') ?>"></script>
-        <script src="<?= site_url('public/js/bootstrap-select.min.js')?>"></script>
+        <!--JQuery-->
+        <script src="<?= base_url('public/js/jquery-3.1.1.min.js') ?>"></script>
+        <!--Bootstrap-->
+        <script src="<?= base_url('public/js/bootstrap.js') ?>"></script>
+        <!--Mask Money-->
+        <script src="<?= base_url('public/js/jquery.maskMoney.min') ?>"></script>
+        <!--Seletor com busca-->
+        <script src="<?= site_url('public/js/bootstrap-select.min.js') ?>"></script>
+        <!--DatePicker-->
+        <script src="<?= base_url('public/js/bootstrap-datepicker.js') ?>"></script>
+        <script src="<?= base_url('public/js/bootstrap-datepicker.min.js') ?>"></script>
+        <script src="<?= base_url('public/js/locales/bootstrap-datepicker.pt-BR.js') ?>"></script>
         <script>
+            // Configurações gerais
             $(document).ready(function () {
-                $(".datepicker").datepicker({format: 'dd/mm/yyyy'});
+
+                //Datepicker geral
+                $('.datepicker').datepicker({
+                    format: "dd/mm/yyyy",
+                    todayBtn: "linked",
+                    language: "pt-BR",
+                    todayHighlight: true,
+                    autoclose: true
+                });
+
+                //MaskMoney
                 $(".money").maskMoney({'thousands': ''});
+
+                //Seletor com busca
                 $('.selectpicker').selectpicker();
             });
         </script>
@@ -33,20 +57,20 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="<?= site_url() ?>"><span><img src="<?= site_url() ?>public/img/dente1.ico" height="20" width="20"/></span>&nbsp;<span>EllaOdonto</span></a>
+                    <a class="navbar-brand" href="<?= base_url() ?>"><span><img src="<?= site_url('public/img/dente1.ico') ?>" height="20" width="20"/></span>&nbsp;<span>EllaOdonto</span></a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="<?= base_url() ?>">Inicial <span class="sr-only"></span></a></li>
+                        <li class="active"><a href="<?= site_url() ?>">Inicial <span class="sr-only"></span></a></li>
                         <!--li><a href="#">Link</a></li-->
                         <?php if ($this->session->userdata('usuario') != null) { ?>
                             <?php if (true) { ?>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Consulta <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="<?= base_url()?>">Nova Consulta</a></li>
+                                        <li><a href="<?= site_url()?>">Nova Consulta</a></li>
 
                                     </ul>
                                 </li>
