@@ -12,6 +12,34 @@ class Agenda extends CI_Controller {
         $this->auth->checkAuth('agenda');
 
         try {
+            
+            if ($this->input->post("mes")) {
+                $mes = $this->input->post("mes");
+                $toView["mes"] = $mes;
+            } else {
+                if ($this->session->flashdata("mes")) {
+                    $mes = $this->session->flashdata("mes");
+                    
+                }else{
+                    $mes = date("m");
+                }
+            }
+            $toView["mes"] = $mes;
+            
+            if ($this->input->post("ano")) {
+                $ano = $this->input->post("ano");
+                $toView["ano"] = $ano;
+            } else {
+                if ($this->session->flashdata("ano")) {
+                    $ano = $this->session->flashdata("ano");
+                    
+                }else{
+                    $ano = date("Y");
+                }
+            }
+            $toView["ano"] = $ano;
+            
+            //Carrega Calendario
             $prefs['template'] = '
 
         {table_open}<table class="table table-bordered table-hover">{/table_open}
@@ -53,42 +81,16 @@ class Agenda extends CI_Controller {
 
             $this->load->library('calendar', $prefs);
 
-            $date = $this->input->post("date");
-            if (!$date || $date == '') {
-                if ($this->session->flashdata("ds")) {
-                    $ds = $this->session->flashdata("ds");
-                } else {
-                    $ds = date("Y-m-d");
-                }
-            } else {
-                $date = inverte_data_w_exception($date);
-            }
-
-            if ($this->input->post("mes")) {
-                $mes = $this->input->post("mes");
-                $toView["mes"] = $mes;
-            } else {
-                if ($this->session->flashdata("mes")) {
-                    $mes = $this->session->flashdata("mes");
-                    $toView["mes"] = $mes;
-                }
-            }
-            if ($this->input->post("ano")) {
-                $ano = $this->input->post("ano");
-                $toView["ano"] = $ano;
-            } else {
-                if ($this->session->flashdata("ano")) {
-                    $ano = $this->session->flashdata("ano");
-                    $toView["ano"] = $ano;
-                }
-            }
-
+            $total_dias = $this->calendar->get_total_days($mes, $ano);
+            $toView["tds"] = $total_dias;
+            
             $data = array(
                 4 => 'http://example.com/news/article/2006/06/03/',
                 6 => 'http://example.com/news/article/2006/06/07/',
                 13 => 'http://example.com/news/article/2006/06/13/',
                 26 => 'http://example.com/news/article/2006/06/26/'
             );
+            
 
             if ($mes && $ano) {
                 $cal = $this->calendar->generate($ano, $mes, $data);
@@ -96,24 +98,10 @@ class Agenda extends CI_Controller {
             }
 
 
-
-
-
-
             $post = $this->input->post();
             $toView["post"] = $post;
 
 
-
-
-
-            if ($this->session->flashdata("data_selecionada")) {
-                $this->session->keep_flashdata("data_selecionada");
-            } else {
-                $this->session->set_flashdata("ds", $ds);
-            }
-
-            $toView['ds'] = $ds;
         } catch (Exception $ex) {
             $this->msg->erro($ex->getMessage());
             if ($this->session->flashdata("data_selecionada")) {

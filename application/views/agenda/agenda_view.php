@@ -46,7 +46,10 @@
             <div class="col-md-3 panel panel-default" style="font-size: 0.8em;">
                 <?=$cal?>
             </div>
-            
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <?=$tds?>
+            </div>
         </div>
     </div>
 </div>
