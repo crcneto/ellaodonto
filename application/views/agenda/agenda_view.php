@@ -4,7 +4,7 @@
         <hr>
         <div class="panel-body">
             <div class="col-md-3 panel panel-default">
-                <h4>Selecione o ano e mês a definir</h4>
+                <h4 class="text-center">Selecione o ano e mês a definir</h4>
                 <form action="<?= site_url('agenda')?>" method="post">
                 <label class="">Selecione o ano</label>
                 <select name="ano" class="form-control">
