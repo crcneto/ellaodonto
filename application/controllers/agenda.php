@@ -5,44 +5,83 @@ if (!defined('BASEPATH'))
 
 class Agenda extends CI_Controller {
 
-    public function index() {
+    public function dias_atendimento() {
 
         $toView = [];
 
         $this->auth->checkAuth('agenda');
 
         try {
-            
+
             if ($this->input->post("mes")) {
                 $mes = $this->input->post("mes");
                 $toView["mes"] = $mes;
             } else {
                 if ($this->session->flashdata("mes")) {
                     $mes = $this->session->flashdata("mes");
-                    
-                }else{
+                } else {
                     $mes = date("m");
                 }
             }
             $toView["mes"] = $mes;
-            
+
             if ($this->input->post("ano")) {
                 $ano = $this->input->post("ano");
                 $toView["ano"] = $ano;
             } else {
                 if ($this->session->flashdata("ano")) {
                     $ano = $this->session->flashdata("ano");
-                    
-                }else{
+                } else {
                     $ano = date("Y");
                 }
             }
             $toView["ano"] = $ano;
-            
-            //Carrega Calendario
-            $prefs['template'] = '
 
-        {table_open}<table class="table table-bordered table-hover">{/table_open}
+            //config calendario
+            $prefs = $this->get_config_calendar();
+
+            $this->load->library('calendar', $prefs);
+
+            $total_dias = $this->calendar->get_total_days($mes, $ano);
+            $toView["tds"] = $total_dias;
+            
+            $meses = get_months();
+            $toView["meses"] = $meses;
+            
+            $horarios = quarter_hours();
+            $toView["horarios"] = $horarios;
+            
+            $data = [];
+            for($d = 1; $d<=$total_dias;$d++){
+                $data[$d] = site_url('agenda/dias_atendimento')."/".$d;
+            }
+
+
+            if ($mes && $ano) {
+                $cal = $this->calendar->generate($ano, $mes, $data);
+                $toView["cal"] = $cal;
+            }
+
+
+            $post = $this->input->post();
+            $toView["post"] = $post;
+        } catch (Exception $ex) {
+            $this->msg->erro($ex->getMessage());
+            if ($this->session->flashdata("data_selecionada")) {
+                $this->session->keep_flashdata("data_selecionada");
+            }
+        } finally {
+            $this->load->view('inc/header_view');
+            $this->load->view('agenda/dias_atendimento_view', $toView);
+            $this->load->view('inc/footer_view');
+        }
+    }
+
+    private function get_config_calendar() {
+        //Carrega Calendario
+        $prefs['template'] = '
+
+        {table_open}<table class="table table-bordered">{/table_open}
 
         {heading_row_start}<tr>{/heading_row_start}
 
@@ -78,40 +117,7 @@ class Agenda extends CI_Controller {
 
         {table_close}</table>{/table_close}
 ';
-
-            $this->load->library('calendar', $prefs);
-
-            $total_dias = $this->calendar->get_total_days($mes, $ano);
-            $toView["tds"] = $total_dias;
-            
-            $data = array(
-                4 => 'http://example.com/news/article/2006/06/03/',
-                6 => 'http://example.com/news/article/2006/06/07/',
-                13 => 'http://example.com/news/article/2006/06/13/',
-                26 => 'http://example.com/news/article/2006/06/26/'
-            );
-            
-
-            if ($mes && $ano) {
-                $cal = $this->calendar->generate($ano, $mes, $data);
-                $toView["cal"] = $cal;
-            }
-
-
-            $post = $this->input->post();
-            $toView["post"] = $post;
-
-
-        } catch (Exception $ex) {
-            $this->msg->erro($ex->getMessage());
-            if ($this->session->flashdata("data_selecionada")) {
-                $this->session->keep_flashdata("data_selecionada");
-            }
-        } finally {
-            $this->load->view('inc/header_view');
-            $this->load->view('agenda/agenda_view', $toView);
-            $this->load->view('inc/footer_view');
-        }
+        return $prefs;
     }
 
 }

@@ -80,4 +80,89 @@ function getDataPorExtenso($data){
     $d = dateToArray($data);
     return $d[0] . " de " . getMes($d[1]) . " de " . $d[2] . ".";
 }
+
+function get_months(){
+        $m = [
+            1=>"Janeiro",
+            2=>"Fevereiro",
+            3=>"Março",
+            4=>"Abril",
+            5=>"Maio",
+            6=>"Junho",
+            7=>"Julho",
+            8=>"Agosto",
+            9=>"Setembro",
+            10=>"Outubro",
+            11=>"Novembro",
+            12=>"Dezembro",
+        ];
+        
+        return $m;
+    }
+    
+    function month_name($num_month){
+        $ms = get_months();
+        return $ms[$num_month];
+    }
+    
+    function month_min($num_month){
+        $ms = get_months_min();
+        return $ms[$num_month];
+    }
+
+
+    function get_months_min(){
+        $m = [
+            1=>"Jan",
+            2=>"Fev",
+            3=>"Mar",
+            4=>"Abr",
+            5=>"Mai",
+            6=>"Jun",
+            7=>"Jul",
+            8=>"Ago",
+            9=>"Set",
+            10=>"Out",
+            11=>"Nov",
+            12=>"Dez",
+        ];
+        
+        return $m;
+    }
+    
+    function current_year(){
+        return date("Y");
+    }
+    
+    function current_month(){
+        return date("m");
+    }
+    
+    function current_day(){
+        return date("d");
+    }
+    
+    function quarter_hours(){
+        $hs = [];
+        
+        for($h = 0; $h<=23; $h++){
+            for($m = 0; $m<=45;($m=$m+15)){
+                
+                if($h<10){
+                    $hp = "0".$h;
+                }else{
+                    $hp = $h;
+                }
+                if($m<10){
+                    $mp = "0".$m;
+                }else{
+                    $mp = $m;
+                }
+                $hs[]=$hp.":".$mp;
+            }
+        }
+        return $hs;
+    }
+    
+    
 ?>

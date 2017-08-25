@@ -78,6 +78,7 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Agenda <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="<?= site_url('agenda')?>">Agenda</a></li>
+                                        <li><a href="<?= site_url('agenda/dias_atendimento')?>">Dias de Atendimento</a></li>
 
                                     </ul>
                                 </li>
