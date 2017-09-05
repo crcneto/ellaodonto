@@ -3,19 +3,20 @@
         <h3 class="h3 text-center">Definir os dias de atendimento&nbsp;<small style="font-style: italic;">(Configuração da agenda)</small></h3>
 
         <div class="panel-body">
+            <form action="<?= site_url('agenda/set_dates') ?>" method="post">
             <div class="col-md-2"></div>
             <div class="col-md-3 panel panel-default">
                 <h4 class="text-center">Selecione os dias</h4>
                 <div class="input-group date">
-                    <input type="text" class="form-control datepicker" id="dt"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                    <input type="text" name="dts" class="form-control datepicker" id="dt"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                 </div>
                 <br>&nbsp;
                 <br>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-3 panel panel-default">
-                <h4 class="text-center">Horário de atendimento</h4>
-                <form class="form-group-sm form-inline" action="<?= site_url('agenda/dias_atendimento') ?>" method="post">
+                <h4 class="text-center">Horário de atendimento&nbsp;<i class="glyphicon glyphicon-exclamation-sign" title="Os dias que já foram salvos e forem selecionados novamente serão sobrescritos" data-toggle="tooltip" style="font-size: 0.6em;color:red;"></i></h4>
+                <div class="form-group-sm form-inline">
                     <h5>1º Turno</h5>
                     <label>Das</label>
                     <select name="turnoinicio1" class="">
@@ -45,13 +46,14 @@
                         <?= btn("Salvar&nbsp;" . gly("ok", "Enviar"), "success", "sm", "", "top") ?>
                     </div>
                     <br>
-                </form>
+                </div>
             </div>
+            </form>
         </div>
     </div>
     <div class="panel panel-default">
         <h4>Datas configuradas</h4>
-
+        <pre><?php print_r($post);?></pre>
     </div>
     <script>
         $('#dt').datepicker({

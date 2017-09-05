@@ -19,7 +19,7 @@ function inverte_data($date) {
 }
 
 /**
- * Retorna o array com a data
+ * Retorna o array com a data. Formato aaaa/mm/dia ou aaaa-mm-dd
  * @param String $data
  * @return Array
  */
@@ -130,18 +130,34 @@ function get_months(){
         return $m;
     }
     
+    /**
+     * Retorna o ano atual (4 dígitos)
+     * @return string/integer 4 dígitos
+     */
     function current_year(){
         return date("Y");
     }
     
+    /**
+     * Retorna o mês atual (2 dígitos)
+     * @return string/integer
+     */
     function current_month(){
         return date("m");
     }
     
+    /**
+     * Retorna o dia atual (2 dígitos)
+     * @return string/integer
+     */
     function current_day(){
         return date("d");
     }
     
+    /**
+     * Retorna um array com os  horários de 00:00 a 23:59 de 15 em 15 minutos. Ex.: [00:00, 00:15, 00:30....]
+     * @return array 
+     */
     function quarter_hours(){
         $hs = [];
         
@@ -164,5 +180,69 @@ function get_months(){
         return $hs;
     }
     
+    /**
+     * Verifica se o formato do horário está correto hh:mm
+     * @throws Exception
+     * @param string $hr
+     * @return boolean Resultado da verificação
+     */
+    function check_hour_exception($hr){
+        if(strlen($hr)!=5){
+            throw new Exception("Formato de hora inválido. Tente hh:mm.");
+        }
+        $h = explode(":", $hr);
+        $hh = $h[0];
+        $mm = $h[1];
+        
+        if($hh<0 || $hh>23){
+            throw new Exception("Hora inválida");
+        }
+        
+        if($mm<0 || $mm>59){
+            throw new Exception("Minuto inválido");
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Verifica se o formato do horário está correto hh:mm
+     * @param string $hr
+     * @return boolean Resultado da verificação
+     */
+    function check_hour($hr){
+        if($hr==null){
+            return false;
+        }
+        
+        if ($hr==""){
+            return false;
+        }
+        
+        if(strlen($hr)!=5){
+            return false;
+        }
+        $h = explode(":", $hr);
+        $hh = $h[0];
+        $mm = $h[1];
+        
+        if($hh<0 || $hh>23){
+            return false;
+        }
+        
+        if($mm<0 || $mm>59){
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Verifica se a data1 é maior que a data2
+     * @param date $data1 Data 1 no formato aaaa/mm/dd
+     */
+    function compara_datas($data1, $data2){
+        
+    }
     
 ?>

@@ -70,7 +70,7 @@
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Consulta <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="<?= site_url()?>">Nova Consulta</a></li>
+                                        <li><a href="<?= site_url('consulta/nova')?>">Nova Consulta</a></li>
 
                                     </ul>
                                 </li>
