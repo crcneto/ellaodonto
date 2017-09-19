@@ -80,4 +80,14 @@ create table diagnostico(
     
 );
 
+create table local(
+    id serial unique not null primary key,
+    usuario integer references usuario(id),
+    nome varchar(255),
+    endereco varchar(255),
+    telfixo varchar(40),
+    cel varchar(40),
+    status integer not null default 2
+);
+
 
