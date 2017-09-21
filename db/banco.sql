@@ -82,12 +82,24 @@ create table diagnostico(
 
 create table local(
     id serial unique not null primary key,
-    usuario integer references usuario(id),
     nome varchar(255),
-    endereco varchar(255),
-    telfixo varchar(40),
+    tp_log integer default 1,
+    logradouro varchar(255),
+    nro varchar(20),
+    bairro varchar(120),
+    cidade varchar(120),
+    uf varchar(2),
+    cep varchar(9),
+    complemento varchar(120),
+    tel varchar(40),
     cel varchar(40),
     status integer not null default 2
+);
+
+create table meu_local(
+    id serial unique not null primary key,
+    local integer references local(id) not null,
+    usuario integer references usuario(id) not null
 );
 
 
