@@ -49,7 +49,7 @@ class Local_model extends CI_Model{
 
     public function get() {
         $this->db->where('status', 2);
-        $this->db->order_by(['nome', 'ASC']);
+        $this->db->order_by('nome ASC');
         $res = $this->db->get('local');
         return $res->result_array();
     }
@@ -136,13 +136,32 @@ class Local_model extends CI_Model{
         }
     }
     
+    /**
+     * 
+     * @param type $data Array contendo local e usuário
+     * @return boolean Retorna TRUE se não houver erros
+     */
     public function delete_meu_local($data){
-        $this->db->where('local', $data['local']);
-        $this->db->where('usuario', $data['usuario']);
+        $this->db->where($data);
         $this->db->delete('meu_local', $data);
         if ($this->db->affected_rows() > 0) {
             return true;
         } else {
+            return false;
+        }
+    }
+    
+    /**
+     * Verifica se já existem registros do local e usuário informados na tabela 'meu local'
+     * @param array $data Array com 2 campos [usuario, local] 
+     * @return boolean Retorna TRUE se já houver algum registro do local e usuário informado no banco de dados
+     */
+    public function existe_meu_local($data){
+        $this->db->where($data);
+        $res = $this->db->get('meu_local');
+        if($res->num_rows()>0){
+            return true;
+        }else{
             return false;
         }
     }

@@ -173,6 +173,7 @@ class Local extends CI_Controller{
         try{
             $operador = $this->session->userdata("operador");
             $toView['locais'] = $this->local_model->getAllById();
+            $toView['locaiss'] = $this->local_model->get();
             $toView['mlocais'] = $this->local_model->meus_locais($operador);
         
         }catch (Exception $ex) {
@@ -185,6 +186,58 @@ class Local extends CI_Controller{
             $this->load->view('inc/header_view');
             $this->load->view('local/meus_locais_view', $toView);
             $this->load->view('inc/footer_view');
+        }
+    }
+    
+    public function add_meu_local(){
+        
+        try{
+            $local = $this->input->post('id');
+            $usuario = $this->session->userdata("operador");
+            if($local==NULL || $usuario==NULL){
+                throw new Exception("Não foi possível determinar o usuário ou o local");
+            }
+            $data = ['usuario'=>$usuario, 'local'=>$local];
+            
+            if(!$this->local_model->existe_meu_local($data)){
+                
+                if(!$this->local_model->add_meu_local($data)){
+                    throw new Exception("Erro ao adicionar 'Meu Local'");
+                }else{
+                    $this->msg->sucesso("Local adicionado");
+                }
+            }else{
+                $this->msg->sucesso("Local adicionado");
+            }
+            
+        } catch (Exception $ex) {
+            $this->msg->erro($ex);
+        } finally {
+            redirect(site_url('local/meus_locais'));
+        }
+    }
+    public function delete_meu_local(){
+        
+        try{
+            
+            $local = $this->input->post('id');
+            $usuario = $this->session->userdata("operador");
+            if($local==NULL || $usuario==NULL){
+                throw new Exception("Não foi possível determinar o usuário ou o local");
+            }
+            $data = ['usuario'=>$usuario, 'local'=>$local];
+            
+            if(!$this->local_model->delete_meu_local($data)){
+                throw new Exception("Erro ao excluir 'Meu Local'");
+            }else{
+                $this->msg->sucesso("Local excluído");
+            }
+            
+            
+        } catch (Exception $ex) {
+            $this->msg->erro($ex);
+        } finally {
+            redirect(site_url('local/meus_locais'));
         }
     }
     
