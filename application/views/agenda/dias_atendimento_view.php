@@ -4,16 +4,19 @@
 
         <div class="panel-body">
             <form action="<?= site_url('agenda/set_dates') ?>" method="post">
-            <div class="col-md-2"></div>
             <div class="col-md-3 panel panel-default">
                 <h4 class="text-center">Selecione os dias</h4><hr>
                 <div class="input-group date">
                     <input type="text" name="dts" class="form-control datepicker" id="dt"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                 </div>
                 <br>&nbsp;
+                <br>&nbsp;
+                <br>&nbsp;
+                <br>&nbsp;
+                <br>&nbsp;
                 <br>
             </div>
-            <div class="col-md-1"></div>
+                <div class="col-md-1"></div>
             <div class="col-md-3 panel panel-default">
                 <h4 class="text-center">Horário de atendimento&nbsp;<i class="glyphicon glyphicon-exclamation-sign" title="Os dias que já foram salvos e forem selecionados novamente serão sobrescritos" data-toggle="tooltip" style="font-size: 0.6em;color:red;"></i></h4>
                 <hr>
@@ -42,19 +45,36 @@
                             <option value="<?= $v1 ?>"><?= $v1 ?></option>
                         <?php } ?>
                     </select>
-                    <br>&nbsp;<br>
+                    
+                    <br><br>&nbsp;
+                </div>
+            </div>
+                <div class="col-md-1"></div>
+            <div class="col-md-3 panel panel-default">
+                <h4 class="text-center">Selecione o local</h4>
+                <hr>
+                <select name="local" class="form-control selectpicker" data-live-search="true">
+                    <?php if(isset($mlocais)){?>
+                    <?php if(count($mlocais)>0){?>
+                    <?php foreach ($mlocais as $k=>$v){?>
+                    <option value="<?=$k?>"><?=$lcs[$v['local']]['nome']?></option>
+                    <?php } ?>
+                    <?php } ?>
+                    <?php } ?>
+                </select>
+                <br>&nbsp;<br>
+                <br>&nbsp;<br>
                     <div class="text-center">
                         <?= btn("Salvar&nbsp;" . gly("ok", "Enviar"), "success", "sm", "", "top") ?>
                     </div>
-                    <br>
-                </div>
+                <br>&nbsp;
             </div>
             </form>
         </div>
     </div>
     <div class="panel panel-default">
         <h4>Datas configuradas</h4>
-        <pre><?php print_r($post);?></pre>
+        <pre><?php if(isset($dias_marcados)){print_r($dias_marcados);}?></pre>
     </div>
     <script>
         $('#dt').datepicker({

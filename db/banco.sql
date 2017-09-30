@@ -1,3 +1,7 @@
+/*
+Tabela de persistência dos usuários. 
+Nesta tabela serão gravadas as informações principais (indispensáveis) dos usuários e seus respectivos acessos.
+*/
 create table usuario(
     id serial unique not null primary key,
     nome varchar(120) not null,
@@ -100,6 +104,17 @@ create table meu_local(
     id serial unique not null primary key,
     local integer references local(id) not null,
     usuario integer references usuario(id) not null
+);
+
+create table horario_atendimento(
+    id serial unique not null primary key,
+    usuario integer references usuario(id) not null,
+    data date not null,
+    ti1 time,
+    tf1 time,
+    ti2 time,
+    tf2 time,
+    local integer references local(id)
 );
 
 

@@ -48,7 +48,7 @@
                     <?php if(count($mlocais)){ ?>
                     <?php foreach($mlocais as $k=>$v){ ?>
                     <tr>
-                        <td><?=$locais[$v['local']]['nome']?></td>
+                        <td><span title="<?= get_tipo_logradouro($locais[$v['local']]['tp_log'])?> <?=$locais[$v['local']]['logradouro']?>, <?=$locais[$v['local']]['nro']?> - <?=$locais[$v['local']]['complemento']?>" data-toggle="tooltip" data-placement="top"><?=$locais[$v['local']]['nome']?></span></td>
                         <td class="text-center">
                             <form action="<?= site_url('local/delete_meu_local')?>" method="post" onsubmit="return confirm('Deseja realmente excluir este local dos \'Meus Locais de Atendimento\'?');">
                                 <input type="hidden" name="id" value="<?=$v['local']?>" />
@@ -63,29 +63,4 @@
             </table>
         </div>
 </div>
-<!--Modal-->
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h2 class="modal-title text-center" id="myModalLabel">Alerta</h2>
-                </div>
-                <div class="modal-body">
-                    
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Enviar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--Fim Modal-->
 
-    <!-- Botão teste modal -->
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-        Teste Modal
-    </button>
-    <!--FIm botão teste-->

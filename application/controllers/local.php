@@ -13,7 +13,10 @@ class Local extends CI_Controller{
         parent::__construct();
         $this->load->model('local_model');
     }
-    
+    /**
+     * Controller da página inicial do cadastro dos "Meus Locais de Atendimento". Controla a relação do usuário com o local de atendimento...
+     *  
+     */
     public function index(){
         $toView = [];
 
@@ -173,6 +176,7 @@ class Local extends CI_Controller{
         try{
             $operador = $this->session->userdata("operador");
             $toView['locais'] = $this->local_model->getAllById();
+            
             $toView['locaiss'] = $this->local_model->get();
             $toView['mlocais'] = $this->local_model->meus_locais($operador);
         

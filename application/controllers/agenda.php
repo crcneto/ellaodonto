@@ -4,6 +4,11 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Agenda extends CI_Controller {
+    
+    public function __construct() {
+        parent::__construct();
+        $this->load->model("agenda_model", "am");
+    }
 
     public function dias_atendimento() {
 
@@ -40,6 +45,16 @@ class Agenda extends CI_Controller {
             $horarios = quarter_hours();
             $toView["horarios"] = $horarios;
             
+            $this->load->model("local_model", "lm");
+            $lcs = $this->lm->getAllById();
+            $toView['lcs'] = $lcs;
+            
+            $mlocais = $this->lm->meus_locais($this->session->userdata("operador"));
+            $toView['mlocais'] = $mlocais;
+            
+            $toView["dias_marcados"] = $this->am->dias_marcados($this->session->userdata("operador"));
+            
+            
             if($this->session->flashdata("post")){
                 $post = $this->session->flashdata("post");
                 $toView['post'] = $post;
@@ -64,12 +79,12 @@ class Agenda extends CI_Controller {
         $this->auth->checkAuth('agenda');
 
         try {
-            
             $dts = $this->input->post('dts');
             $ti1 = $this->input->post('turnoinicio1');
             $tf1 = $this->input->post('turnofim1');
             $ti2 = $this->input->post('turnoinicio2');
             $tf2 = $this->input->post('turnofim2');
+            $local = $this->input->post('local');
             
             if(!$dts || $dts=="" || count($dts)<=0){
                 throw new Exception("Datas inválidas");
@@ -84,6 +99,7 @@ class Agenda extends CI_Controller {
             check_hour_exception($tf2);
             
             $usuario = $this->session->userdata("operador");
+            $count = 1;
             
             foreach ($datas as $k => $v) {
                 $dates[$k]['usuario'] = $usuario;
@@ -92,11 +108,20 @@ class Agenda extends CI_Controller {
                 $dates[$k]['tf1'] = $tf1;
                 $dates[$k]['ti2'] = $ti2;
                 $dates[$k]['tf2'] = $tf2;
+                $dates[$k]['local'] = $local;
+                
+                
+                if($this->am->eh_dia_marcado($dates[$k])){
+                    $this->am->exclui_horarios($dates[$k]);
+                }
+                $res = $this->am->grava_horario($dates[$k]);
+                if(!$res){
+                    throw new Exception("Erro ao definir as datas/horários de atendimento");
+                }
+                $count++;
             }
+            $this->msg->sucesso("$count Datas definidas com sucesso.");
             
-            
-            
-            $this->session->set_flashdata('post', $dates);
             
         } catch (Exception $ex) {
             $this->msg->erro($ex->getMessage());
