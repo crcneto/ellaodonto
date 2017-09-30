@@ -9,4 +9,9 @@
 
 thead{
     font-weight: bolder;
+    text-align: center;
+}
+
+th{
+    text-align: center;
 }

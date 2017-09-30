@@ -73,8 +73,6 @@ class Agenda extends CI_Controller {
     
     public function set_dates(){
         
-        
-        $toView = [];
 
         $this->auth->checkAuth('agenda');
 
@@ -99,7 +97,7 @@ class Agenda extends CI_Controller {
             check_hour_exception($tf2);
             
             $usuario = $this->session->userdata("operador");
-            $count = 1;
+            $count = 0;
             
             foreach ($datas as $k => $v) {
                 $dates[$k]['usuario'] = $usuario;
@@ -110,6 +108,10 @@ class Agenda extends CI_Controller {
                 $dates[$k]['tf2'] = $tf2;
                 $dates[$k]['local'] = $local;
                 
+                if($ti2==$tf2){
+                    unset($dates[$k]['ti2']);
+                    unset($dates[$k]['tf2']);
+                }
                 
                 if($this->am->eh_dia_marcado($dates[$k])){
                     $this->am->exclui_horarios($dates[$k]);
@@ -130,6 +132,29 @@ class Agenda extends CI_Controller {
         }
         
         
+    }
+    
+    public function excluir_horario(){
+        $this->auth->checkAuth('agenda/dias_atendimento');
+        
+        try{
+            $id = $this->input->post('id');
+            
+            if(!$id || $id=='' || !is_numeric($id)){
+                throw new Exception("Horário não identificado");
+            }
+            
+            if($this->am->exclui_linha($id)){
+                $this->msg->sucesso("Horário excluído");
+            }else{
+                throw new Exception("Erro ao excluir o horário");
+            }
+            
+        } catch (Exception $ex) {
+            $this->msg->erro($ex->getMessage());
+        } finally {
+            redirect('agenda/dias_atendimento');
+        }
     }
 
 }

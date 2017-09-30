@@ -59,7 +59,7 @@ class Agenda_model extends CI_Model{
     public function dias_marcados($usuario){
         $this->db->from('horario_atendimento');
         $this->db->where('usuario', $usuario);
-        $this->db->order_by("data ASC");
+        $this->db->order_by("data DESC");
         $q = $this->db->get();
         $res = $q->result_array();
         return $res;

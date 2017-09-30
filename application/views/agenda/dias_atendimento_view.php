@@ -73,8 +73,44 @@
         </div>
     </div>
     <div class="panel panel-default">
-        <h4>Datas configuradas</h4>
-        <pre><?php if(isset($dias_marcados)){print_r($dias_marcados);}?></pre>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th colspan="7" class="text-center">Datas definidas</th>
+                </tr>
+                <tr>
+                    <th>Data</th>
+                    <th>Local</th>
+                    <th>Início Turno 1</th>
+                    <th>Fim Turno 1</th>
+                    <th>Início Turno 2</th>
+                    <th>Fim Turno 2</th>
+                    <th>Operações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if(isset($dias_marcados)){ ?>
+                <?php if(count($dias_marcados)>0){ ?>
+                <?php foreach($dias_marcados as $k=>$v){ ?>
+                <tr>
+                    <td class="text-center"><?=$v['data']?></td>
+                    <td><?=$lcs[$v['local']]['nome']?></td>
+                    <td class="text-center"><?=$v['ti1']?></td>
+                    <td class="text-center"><?=$v['tf1']?></td>
+                    <td class="text-center"><?=$v['ti2']?></td>
+                    <td class="text-center"><?=$v['tf2']?></td>
+                    <td class="text-center">
+                        <form action="<?= site_url('agenda/excluir_horario')?>" method="post" onsubmit="return confirm('Deseja realmente excluir este horário?');">
+                            <input type="hidden" name="id" value="<?=$v['id']?>" />
+                            <button type="submit" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                <?php } ?>
+                <?php } ?>
+                <?php } ?>
+            </tbody>
+        </table>
     </div>
     <script>
         $('#dt').datepicker({

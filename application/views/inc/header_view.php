@@ -11,6 +11,7 @@
         </style>
         <link rel="shortcut icon" href="<?= site_url('public/img/dente1.ico') ?>" />
         <link rel="stylesheet" href="<?= site_url('public/css/bootstrap-select.min.css') ?>">
+        <link rel="stylesheet" href="<?= site_url('public/css/style.css') ?>">
         <meta charset="utf-8">
         <!--JQuery-->
         <script src="<?= base_url('public/js/jquery-3.1.1.min.js') ?>"></script>
