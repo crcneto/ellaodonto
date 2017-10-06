@@ -78,8 +78,10 @@
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profissional <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="<?= site_url('local/meus_locais')?>">Meus Locais de Atendimento</a></li>
+                                        
                                         <li><a href="<?= site_url('agenda/dias_atendimento')?>">Dias de Atendimento</a></li>
+                                        <li><a href="<?= site_url('local/meus_locais')?>">Meus Locais de Atendimento</a></li>
+                                        <li><a href="<?= site_url('assistente')?>">Meus Assistentes</a></li>
 
                                     </ul>
                                 </li>
@@ -103,6 +105,7 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administração <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="<?= site_url('area') ?>">Cadastro de Área</a></li>
+                                        <li><a href="<?= site_url('especialidade') ?>">Cadastro de Especiadade</a></li>
                                         <!--li role="separator" class="divider"></li>
                                         <li class="dropdown-header text-center">Configurações</li>
                                         <li role="separator" class="divider"></li>

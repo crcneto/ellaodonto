@@ -21,20 +21,38 @@ class Usuario_model extends CI_Model {
      */
 
     public function getAll() {
-        $sql = "select id, nome, email, apelido, sexo, datanasc, ts, secretaria, profissional, sysadmin, status from usuario order by nome";
-        $q = $this->db->query($sql);
+        $this->db->select('id, nome, email, apelido, sexo, datanasc, ts, secretaria, profissional, sysadmin, status');
+        $this->db->order_by('nome', 'ASC');
+        $q = $this->db->get('usuario');
+        
         return $q->result_array();
     }
 
     public function get($id) {
-        $sql = "select * from usuario where id=? limit 1";
-        $q = $this->db->query($sql, [$id]);
+        $this->db->from('usuario');
+        $this->db->where('id', $id);
+        $this->db->limit('1');
+        
+        $q = $this->db->get();
         if ($q->num_rows < 1) {
             throw new Exception("Usuário não encontrado.");
         }
         $u = $q->row_array();
         unset($u['senha']);
         return $u;
+    }
+    
+    public function todos_ativos(){
+        $this->db->from('usuario');
+        $this->db->where('status', 2);
+        $this->db->order_by('nome','ASC');
+        $q = $this->db->get();
+        $res = $q->result_array();
+        $r = [];
+        foreach ($res as $v) {
+            $r[$v['id']] = $v;
+        }
+        return $r;
     }
 
     /**
@@ -57,15 +75,17 @@ class Usuario_model extends CI_Model {
         if (!$this->exists($email)) {
             throw new Exception("Usuário não encontrado.");
         }
-        $sql = "select id, nome, email, apelido, sexo, datanasc, ts, secretaria, profissional, sysadmin, status from usuario where email=? limit 1";
-        $r = $this->db->query($sql, [$email]);
+        $this->db->select('id, nome, email, apelido, sexo, datanasc, ts, secretaria, profissional, sysadmin, status');
+        $this->db->where('email', $email);
+        $this->db->limit('1');
+        $r = $this->db->get('usuario');
         $u = $r->result_array();
         return $u[0];
     }
 
     public function exists($login) {
-        $sql = "select * from usuario where email=?";
-        $r = $this->db->query($sql, [$login]);
+        $this->db->where('email', $login);
+        $r = $this->db->get('usuario');
         if ($r->num_rows() > 0) {
             return true;
         } else {
@@ -73,9 +93,21 @@ class Usuario_model extends CI_Model {
         }
     }
     
+    public function existe_id($id){
+        $this->db->where("id", $id);
+        $q = $this->db->get('usuario');
+        if($q->num_rows()>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
     public function existe_outro_cpf($id, $cpf){
-        $sql = "select * from usuario where id<>? and cpfcnpj=?";
-        $res = $this->db->query($sql, [$id, $cpf]);
+        $this->db->from('usuario');
+        $this->db->where('id !=', $id);
+        $this->db->where('cpfcnpj =', $cpf);
+        $res = $this->db->get();
         if($res->num_rows()>0){
             return true;
         }else{
@@ -95,8 +127,10 @@ class Usuario_model extends CI_Model {
     }
     
     public function existe_outro_email($id, $email){
-        $sql = "select * from usuario where id<>? and email=?";
-        $res = $this->db->query($sql, [$id, $email]);
+        $this->db->from('usuario');
+        $this->db->where('id !=', $id);
+        $this->db->where('email =', $email);
+        $res = $this->db->get();
         if($res->num_rows()>0){
             return true;
         }else{
@@ -105,8 +139,10 @@ class Usuario_model extends CI_Model {
     }
     
     public function get_id_by_email($email){
-        $sql = "select id from usuario where email=?";
-        $res = $this->db->query($sql, [$email]);
+        $this->db->from('usuario');
+        $this->db->selet('id');
+        $this->db->where('email', $email);
+        $res = $this->db->get();
         if($res->num_rows()>0){
             return $res->row_array();
         }else{
@@ -115,8 +151,9 @@ class Usuario_model extends CI_Model {
     }
 
     public function existsId($id) {
-        $sql = "select * from usuario where id=?";
-        $r = $this->db->query($sql, [$id]);
+        $this->db->from('usuario');
+        $this->db->where("id", $id);
+        $r = $this->db->get();
         if ($r->num_rows() > 0) {
             return true;
         } else {
@@ -177,8 +214,9 @@ class Usuario_model extends CI_Model {
     }
 
     public function login($login, $senha) {
-        $sql = "select * from usuario where email=? and senha=?";
-        $q = $this->db->query($sql, [$login, md5($senha)]);
+        $this->db->where('email', $login);
+        $this->db->where('senha', md5($senha));
+        $q = $this->db->get('usuario');
         if ($q->num_rows() > 0) {
             return true;
         } else {
@@ -187,8 +225,9 @@ class Usuario_model extends CI_Model {
     }
 
     public function ativa($id) {
-        $sql = "update usuario set status=2 where id=?";
-        $this->db->query($sql, [$id]);
+        $this->db->where('id', $id);
+        $this->db->set('status', '2');
+        $this->db->update('usuario');
         if ($this->db->affected_rows() > 0) {
             return true;
         } else {
@@ -197,8 +236,9 @@ class Usuario_model extends CI_Model {
     }
 
     public function desativa($id) {
-        $sql = "update usuario set status=0 where id=?";
-        $this->db->query($sql, [$id]);
+        $this->db->where('id', $id);
+        $this->db->set('status', '0');
+        $this->db->update('usuario');
         if ($this->db->affected_rows() > 0) {
             return true;
         } else {

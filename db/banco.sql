@@ -117,4 +117,10 @@ create table horario_atendimento(
     local integer references local(id)
 );
 
+create table assistente(
+    id serial unique not null primary key,
+    profissional integer references usuario(id),
+    assistente integer references usuario(id)
+);
+
 
