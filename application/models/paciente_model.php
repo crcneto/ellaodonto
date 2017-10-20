@@ -16,8 +16,10 @@ class Paciente_model extends CI_Model{
     }
     
     public function nomeExists($nome){
-        $sql = "select * from area where upper(nome) = upper(?);";
-        $r = $this->db->query($sql, [$nome]);
+        $this->db->where('upper(nome)', "upper('$nome')", FALSE);
+        $r = $this->db->get('paciente');
+        //$sql = "select * from area where upper(nome) = upper(?);";
+        //$r = $this->db->query($sql, [$nome]);
         if($r->num_rows()>0){
             return true;
         }else{
@@ -26,8 +28,10 @@ class Paciente_model extends CI_Model{
     }
     
     public function exists($id){
-        $sql = "select * from paciente where id=?";
-        $r = $this->db->query($sql, [$id]);
+        $this->db->where('id', $id);
+        $r = $this->db->get('paciente');
+        //$sql = "select * from paciente where id=?";
+        //$r = $this->db->query($sql, [$id]);
         if($r->num_rows()>0){
             return true;
         }else{

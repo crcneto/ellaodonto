@@ -123,4 +123,10 @@ create table assistente(
     assistente integer references usuario(id)
 );
 
+create table area_profissional(
+    id serial unique not null primary key,
+    profissional integer references usuario(id),
+    area integer references area(id)
+);
+
 

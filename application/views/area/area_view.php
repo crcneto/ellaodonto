@@ -1,7 +1,7 @@
 <div class="container">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <div class="panel-title text-center">Cadastro de Área</div>
+            <div class="panel-title text-center">Cadastro de Área &nbsp;<a href="<?= site_url('area')?>"><?= gly("plus-sign", "Cadastrar nova Área")?></a></div>
         </div>
         <div class="panel-body">
             <form action="<?= site_url('area/insert')?>" method="post">

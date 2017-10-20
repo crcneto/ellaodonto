@@ -23,8 +23,10 @@ class Local_model extends CI_Model{
     }
 
     public function nomeExists($nome) {
-        $sql = "select * from local where upper(nome) = upper(?);";
-        $r = $this->db->query($sql, [$nome]);
+        $this->db->where('upper(nome)', "upper('$nome')", FALSE);
+        $r = $this->db->get('local');
+        //$sql = "select * from local where upper(nome) = upper(?);";
+        //$r = $this->db->query($sql, [$nome]);
         if ($r->num_rows() > 0) {
             return true;
         } else {
@@ -33,8 +35,10 @@ class Local_model extends CI_Model{
     }
 
     public function exists($id) {
-        $sql = "select * from local where id=?";
-        $r = $this->db->query($sql, [$id]);
+        $this->db->where('id', $id);
+        $r = $this->db->get('local');
+        //$sql = "select * from local where id=?";
+        //$r = $this->db->query($sql, [$id]);
         if ($r->num_rows() > 0) {
             return true;
         } else {

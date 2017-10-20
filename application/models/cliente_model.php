@@ -12,13 +12,15 @@ class Cliente_model extends CI_Model {
     public function getById($id) {
         $this->db->where('id', $id);
         $r = $this->db->get('cliente');
-        $ra = $r->result_array();
-        return $ra[0];
+        $ra = $r->row_array();
+        return $ra;
     }
 
     public function nomeExists($nome) {
-        $sql = "select * from cliente where upper(nome) = upper(?);";
-        $r = $this->db->query($sql, [$nome]);
+        $this->db->where('upper(nome)', "upper('$nome')", FALSE);
+        $r = $this->db->get('cliente');
+        //$sql = "select * from cliente where upper(nome) = upper(?);";
+        //$r = $this->db->query($sql, [$nome]);
         if ($r->num_rows() > 0) {
             return true;
         } else {
@@ -27,8 +29,10 @@ class Cliente_model extends CI_Model {
     }
 
     public function exists($cpfcnpj) {
-        $sql = "select * from cliente where cpfcnpj=?";
-        $r = $this->db->query($sql, [$cpfcnpj]);
+        $this->db->where('cpfcnpj', $cpfcnpj);
+        $r = $this->db->get('cliente');
+        //$sql = "select * from cliente where cpfcnpj=?";
+        //$r = $this->db->query($sql, [$cpfcnpj]);
         if ($r->num_rows() > 0) {
             return true;
         } else {
