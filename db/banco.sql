@@ -65,12 +65,15 @@ create table formacao (
 create table consulta(
     id serial unique not null primary key,
     paciente integer references paciente(id),
+    profissional integer references usuario(id),
     data_prevista date,
     hora_inicial time,
+    hora_final time,
     queixa varchar,
     tipo integer default 1, /*1-Nova/2-Retorno*/
+    
     area integer references area(id),
-    profissional integer references usuario(id),
+    
     usuario_responsavel integer references usuario(id),
     ts_gravacao timestamp default now(),
     status integer default 1 /*0-cancelada/1-pendente aprovação/2-aprovada/3-em andamento/4-finalizada parcial/5-finalizada*/
