@@ -70,7 +70,7 @@ class Home extends CI_Controller {
 
         {table_open}<table class="table table-bordered table-hover col-md-8">{/table_open}
 
-        {heading_row_start}<tr class="text-center" style="font-weight: bold; background-color: #3232CD; color: white;">{/heading_row_start}
+        {heading_row_start}<thead><tr class="text-center alert alert-info" style="font-weight: bold; /*background-color: #3232CD; color: white;*/">{/heading_row_start}
 
         {heading_previous_cell}<th><form action="'. site_url('home').'" method="post"><input type="hidden" name="anomes" value="{previous_url}" /><button type="submit" class="btn btn-link"><i class="glyphicon glyphicon-menu-left"></i></button></form></th>{/heading_previous_cell}
         {heading_title_cell}<th colspan="{colspan}">{heading}</th>{/heading_title_cell}
@@ -82,7 +82,7 @@ class Home extends CI_Controller {
         {week_day_cell}<td class="text-center" style="font-weight: bold;">{week_day}</td>{/week_day_cell}
         {week_row_end}</tr>{/week_row_end}
 
-        {cal_row_start}<tr>{/cal_row_start}
+        {cal_row_start}<tr class="alert alert-warning">{/cal_row_start}
         {cal_cell_start}<td class="text-center">{/cal_cell_start}
         {cal_cell_start_today}<td style="text-align: center; font-weight: bold;">{/cal_cell_start_today}
         {cal_cell_start_other}<td class="other-month">{/cal_cell_start_other}
