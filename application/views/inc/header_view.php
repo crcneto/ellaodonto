@@ -75,6 +75,7 @@
 
                                     </ul>
                                 </li>
+                                <?php if($this->session->userdata("profissional")>0){ ?>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profissional <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
@@ -86,6 +87,7 @@
 
                                     </ul>
                                 </li>
+                                <?php } ?>
                             <?php } ?>
                             <?php if ($this->auth->sec_pro_menu()) { ?>
                                 <li class="dropdown">

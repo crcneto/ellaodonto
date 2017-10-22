@@ -17,6 +17,7 @@
                         <input type="password" name="senha" class="form-control" />
                     </div>
                     <button type="submit" class="btn btn-success">Entrar</button>
+                    <a href="<?= site_url('usuario/esqueci_minha_senha')?>" class="btn btn-link" style="font-size: 0.7em;">Esqueci minha senha</a>
                 </form>
             
         </div>

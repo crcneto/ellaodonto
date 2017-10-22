@@ -295,24 +295,77 @@ class Usuario extends CI_Controller {
     public function reset() {
 
         try {
+            $id = $this->input->post('id');
             
+            if(!$id || $id=="" || !is_numeric($id)){
+                throw new Exception("Identificador de usuário inválido");
+            }
+            
+            if(!$this->usuario_model->existe_id($id)){
+                throw new Exception("Usuário não localizado");
+            }
+            
+            $user = $this->usuario_model->get($id);
+            
+            $email = $user['email'];
+            
+            $senhagerada = substr(md5($email . rand()), 0, 10);
+            $senha = md5($senhagerada);
+            
+            $user['senha'] = $senha;
+            
+            $message = "<h2>EllaOdonto</h2><p>Seja bem-vindo ao sistema EllaOdonto.<br>Sua senha foi reconfigurada.<br>A senha de acesso gerada pelo sistema foi: $senhagerada <br>Agradecemos a prefer&ecirc;ncia!";
+            $this->correio->sendMail($user['email'], "Bem-vindo ao Sistema EllaOdonto!", $message);
+            
+            if($this->usuario_model->update($user)){
+                $this->msg->sucesso("Senha gerada e enviada para o e-mail cadastrado");
+            }else{
+                throw new Exception("Erro ao gera a senha");
+            }
         } catch (Exception $ex) {
             $this->msg->erro($ex->getMessage());
+        } finally {
             redirect(site_url('usuario'));
         }
     }
 
     public function changepass() {
 
-        
-        /*
-         * Alterar
-         */
         try {
             
             $usuario = $this->session->userdata('usuario');
+            $senha = $this->input->post("senha");
+            $senha2 = $this->input->post("senha2");
+            $senha3 = $this->input->post("senha3");
+            
+            if(!$senha || !$senha2 || !$senha3){
+                throw new Exception("Preencha todos os campos");
+            }
+            
+            if(strlen($senha)<4 || strlen($senha2)<4 || strlen($senha3)<4){
+                throw new Exception("A senha deverá possuir no mínimo 4 caracteres");
+            }
+            
+            if($senha2!==$senha3){
+                throw new Exception("Confirmação de senha inválida");
+            }
+            
+            if(!$this->usuario_model->login($usuario['email'], $senha)){
+                throw new Exception("Senha incorreta");
+            }
+            
+            $usuario['senha'] = md5($senha2);
+            
+            if($this->usuario_model->update($usuario)){
+                $this->msg->sucesso("Senha alterada com sucesso");
+            }else{
+                throw new Exception("Erro ao atualizar a senha");
+            }
+            
+            
         } catch (Exception $ex) {
             $this->msg->erro($ex->getMessage());
+        } finally {
             redirect(site_url('usuario/alterarsenha'));
         }
     }
@@ -326,6 +379,67 @@ class Usuario extends CI_Controller {
         $this->load->view('inc/header_view');
         $this->load->view('usuario/alterarsenha_view', $toView);
         $this->load->view('inc/footer_view');
+    }
+    
+    public function esqueci_minha_senha(){
+        
+        $toView = [];
+        
+        try{
+            
+        } catch (Exception $ex) {
+            $this->msg->erro($ex->getMessage());
+        } finally {
+            $this->load->view('inc/header_view');
+            $this->load->view('usuario/esqueci_minha_senha_view', $toView);
+            $this->load->view('inc/footer_view');
+        }
+    }
+    
+    public function redefinir_senha(){
+        
+        try{
+            
+            $email = $this->input->post("email");
+            $dn = $this->input->post("dn");
+            
+            $this->load->helper("email");
+            if(!valid_email($email)){
+                throw new Exception("E-mail inválido");
+            }
+            
+            if(!$this->usuario_model->exists($email)){
+                throw new Exception("E-mail não encontrado em nossa base de dados");
+            }
+            
+            $user = $this->usuario_model->getByEmail($email);
+            
+            
+            if($user['datanasc'] != inverte_data_w_exception($dn)){
+                throw new Exception("As informações não correspondem ao cadastro");
+            }
+            
+            $login = $user['email'];
+            
+            $senhagerada = substr(md5($login . rand()), 0, 10);
+            $senha = md5($senhagerada);
+            
+            $user['senha'] = $senha;
+            
+            $message = "<h2>EllaOdonto</h2><p>Seja bem-vindo ao sistema EllaOdonto.<br>Sua senha foi redefinida.<br>A senha de acesso gerada pelo sistema foi: $senhagerada <br>Agradecemos a prefer&ecirc;ncia!";
+            $this->correio->sendMail($user['email'], "Sistema EllaOdonto!", $message);
+            
+            if($this->usuario_model->update($user)){
+                $this->msg->sucesso("Senha gerada e enviada para o e-mail cadastrado");
+            }else{
+                throw new Exception("Erro ao gera a senha");
+            }
+            
+        } catch (Exception $ex) {
+            $this->msg->erro($ex->getMessage());
+        } finally {
+            redirect(site_url('usuario/esqueci_minha_senha'));
+        }
     }
 
 }

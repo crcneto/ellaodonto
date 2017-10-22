@@ -7,15 +7,15 @@
             <form action="<?= site_url('usuario/changepass') ?>" method="post">
                 <div class="col-md-3">
                     <label>Senha Anterior</label>
-                    <input type="password" name="senha" class="form-control" />
+                    <input type="password" name="senha" class="form-control" required=""/>
                 </div>
                 <div class="col-md-3">
                     <label>Nova Senha</label>
-                    <input type="password" name="senha2" class="form-control" />
+                    <input type="password" name="senha2" class="form-control" required=""/>
                 </div>
                 <div class="col-md-3">
                     <label>Confirme a Nova Senha</label>
-                    <input type="password" name="senha3" class="form-control" />
+                    <input type="password" name="senha3" class="form-control" required=""/>
                 </div>
                 <div class="col-md-3">
                     <br>

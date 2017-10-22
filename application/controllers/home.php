@@ -10,7 +10,7 @@ class Home extends CI_Controller {
             $user = $this->session->userdata("usuario");
             
             if($user['profissional']>0){
-                
+                $toView['profissional'] = $user['profissional'];
 
                 if($this->input->post('anomes')){
                     $anomes = $this->input->post('anomes');

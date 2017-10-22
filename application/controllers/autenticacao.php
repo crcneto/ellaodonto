@@ -52,6 +52,11 @@ class Autenticacao extends CI_Controller {
             //carrega id do usuário como Operador
             $this->session->set_userdata('operador', $user['id']);
             
+            //set profissional
+            if($user['profissional']>0){
+                $this->session->set_userdata("profissional", $user["profissional"]);
+            }
+            
             //carrega mensagem de boas vindas
             $this->session->set_userdata("sucesso_mensagem", "Bem-vindo, " . $user['nome'] . "!");
             
