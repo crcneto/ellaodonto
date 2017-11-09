@@ -13,6 +13,14 @@ class Consulta extends CI_Controller {
         $toView = [];
         try{
             
+            $usuario = $this->session->userdata("usuario");
+            if($usuario['profissional']){
+                $toView['profissional'] = 1;
+            }
+            
+            
+            
+            
         } catch (Exception $ex) {
             $this->msg->erro($ex->getMessage());
         } finally {
@@ -20,5 +28,9 @@ class Consulta extends CI_Controller {
             $this->load->view('consulta/nova_view', $toView);
             $this->load->view('inc/footer_view');
         }
+    }
+    public function profissional(){
+        
+        teste("descontinuado");
     }
 }

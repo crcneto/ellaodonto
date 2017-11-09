@@ -49,4 +49,14 @@ class Assistente_model extends CI_Model{
         }
     }
     
+    public function eh_assistente($id_usuario){
+        $this->db->where("assistente", $id_usuario);
+        $q = $this->db->get("assistente");
+        if($q->num_rows()>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
 }

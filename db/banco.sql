@@ -132,4 +132,35 @@ create table area_profissional(
     area integer references area(id)
 );
 
+create table consulta(
+    id serial unique not null primary key,
+    profissional integer references usuario(id),
+    paciente integer references paciente(id),
+    data date,
+    hora time,
+    queixa text,
+    lembrete date,
+    ajustavel integer default 0, /*qtd de dias para adequação*/
+    obs text,
+    operador integer references usuario(id),
+    ts timestamp default now(),
+    status integer default 1 /*0-cancelada, 1-pendente, 2-confirmada, 3-atendida em tratamento, 4-atendida, 5-finalizada*/
+    
+);
+
+create table agenda(
+    id serial unique not null primary key,
+    data date not null default now(),
+    hora time,
+    usuario integer not null references usuario(id),
+    descricao text,
+    obs text,
+    consulta integer references consulta(id),
+    prioridade integer default 1, /*0-sem prioridade, 1-normal, 2-ocupado, 3-ocupado sem encaixe, 4-total*/
+    lembrete date,
+    operador integer references usuario(id),
+    ts timestamp default now(),
+    status integer default 1  /*0-excluido, 1-pendente, 2-em andamento, 3-aguardando, 4-não atendido, 5-cancelado*/
+);
+
 

@@ -87,7 +87,8 @@ class Home extends CI_Controller {
         {cal_cell_start_today}<td style="text-align: center; font-weight: bold;">{/cal_cell_start_today}
         {cal_cell_start_other}<td class="other-month">{/cal_cell_start_other}
 
-        {cal_cell_content}<a href="{content}">{day}</a>{/cal_cell_content}
+        {cal_cell_content}<form action="'. site_url('agenda/seleciona').'" method="post" ><input type="hidden" name="dia" value="{day}"/><input type="hidden" name="mes" value=""/><button type="submit" class="btn btn-link">{day}</button></form>{/cal_cell_content}
+        
         {cal_cell_content_today}<div class="highlight"><a href="{content}">{day}</a></div>{/cal_cell_content_today}
 
         {cal_cell_no_content}{day}{/cal_cell_no_content}

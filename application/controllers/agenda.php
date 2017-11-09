@@ -156,5 +156,37 @@ class Agenda extends CI_Controller {
             redirect('agenda/dias_atendimento');
         }
     }
+    
+    public function profissional(){
+        $this->auth->checkAuth('agenda/profissional');
+        
+        $toView = [];
+        try{
+            $usuario = $this->session->userdata("usuario");
+            if($usuario['profissional']<1){
+                throw new Exception("Acesso exclusivo aos profissionais");
+            }
+            
+            if($this->input->post("data")){
+                $data = $this->input->post("data");
+                $toView['data'] = inverte_data_w_exception($data);
+                $this->session->set_flashdata("data", $data);
+            }elseif($this->session->flashdata("data")){
+                $this->session->keep_flashdata("data");
+            }
+            
+            if($this->session->flashdata("data")){
+                $toView['data'] = inverte_data($this->session->flashdata("data"));
+            }
+            
+            
+        } catch (Exception $ex) {
+            $this->msg->erro($ex->getMessage());
+        } finally {
+            $this->load->view('inc/header_view');
+            $this->load->view('agenda/profissional_view', $toView);
+            $this->load->view('inc/footer_view');
+        }
+    }
 
 }

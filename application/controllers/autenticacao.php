@@ -45,6 +45,11 @@ class Autenticacao extends CI_Controller {
                 throw new Exception("Usuário bloqueado. Por gentileza, entre em contato com a secretaria.");
             }
             
+            $this->load->model("assistente_model","assistente");
+            if($this->assistente->eh_assistente()){
+                $user['secretaria'] = 1;
+            }
+            
             
             //carrega usuário na sessão
             $this->session->set_userdata('usuario', $user);

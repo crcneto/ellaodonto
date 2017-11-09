@@ -16,13 +16,16 @@ class Area extends CI_Controller {
             $this->auth->checkAuth('area');
 
             //check access
-            if (!$this->auth->administrador()) {
-                throw new Exception("É necessário ser administrador para acessar este módulo");
+            $usuario = $this->session->userdata("usuario");
+            if($usuario['sysadmin']<1){
+                $this->msg->erro("É necessário ser administrador para acessar o cadastro de áreas");
+                redirect(site_url());
             }
 
             $toView = array();
 
-            $areas = $this->area_model->getAllById();
+            $this->load->model("area_model", "area");
+            $areas = $this->area->getAllById();
             $toView['areas'] = $areas;
 
             $id = $this->input->post('id');
@@ -31,13 +34,13 @@ class Area extends CI_Controller {
                 $area = $this->area_model->getById($id);
                 $toView['area'] = $area;
             }
-
+            
+        } catch (Exception $ex) {
+            $this->msg->erro($ex->getMessage());
+        } finally {
             $this->load->view('inc/header_view');
             $this->load->view('area/area_view', $toView);
             $this->load->view('inc/footer_view');
-        } catch (Exception $ex) {
-            $this->session->set_userdata('erro_mensagem', $ex->getMessage());
-            redirect(site_url('area'));
         }
     }
 
