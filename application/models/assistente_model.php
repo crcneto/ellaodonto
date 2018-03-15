@@ -59,4 +59,25 @@ class Assistente_model extends CI_Model{
         }
     }
     
+    /**
+     * Retorna os profissionais os quais o usuário é assistente e ele mesmo
+     * @param int $id_assistente
+     * @return array de profissionais ou false
+     */
+    public function profissionais_do_assistente($id_assistente){
+        $this->db->from("usuario as u");
+        $this->db->join("assistente as a", "a.profissional = u.id");
+        $this->db->where("a.assistente", $id_assistente);
+        $this->db->select("u.*");
+        $this->db->group_by("u.id, u.nome, u.cpfcnpj, u.email, u.tel, u.apelido, u.sexo, u.senha, u.datanasc, u.ts, u.secretaria, u.profissional, u.sysadmin, u.status");
+        $this->db->order_by("u.nome");
+        $q = $this->db->get();
+        
+        if($q->num_rows()>0){
+            return $q->result_array();
+        }else{
+            return false;
+        }
+    }
+    
 }

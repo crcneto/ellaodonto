@@ -144,11 +144,14 @@ create table consulta(
     obs text,
     operador integer references usuario(id),
     ts timestamp default now(),
-    status integer default 1 /*0-cancelada, 1-pendente, 2-confirmada, 3-atendida em tratamento, 4-atendida, 5-finalizada*/
+    status integer default 1, /*0-cancelada, 1-pendente, 2-confirmada, 3-atendida em tratamento, 4-atendida, 5-finalizada*/
+    cancelamento timestamp default null,
+    cancelador integer references usuario(id),
+    
     
 );
 
-create table agenda(
+create table compromisso(
     id serial unique not null primary key,
     data date not null default now(),
     hora time,

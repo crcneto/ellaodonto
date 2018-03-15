@@ -1,6 +1,6 @@
 <?php
 
-function cliente_status() {
+function status_cliente() {
     $status = array(
         '2' => 'Ativo',
         '1' => 'Pendente',
@@ -10,7 +10,7 @@ function cliente_status() {
     return $status;
 }
 
-function usuario_status() {
+function status_usuario() {
     $ar = array(
         '0' => 'Desativado',
         '1' => 'Cadastro Pendente',
@@ -19,7 +19,7 @@ function usuario_status() {
     return $ar;
 }
 
-function acessos() {
+function status_acesso() {
     $acessos = array(
         '1' => 'Cliente/Paciente',
         '3' => 'Secretaria',
@@ -28,6 +28,29 @@ function acessos() {
         '9' => 'WebMaster'
     );
     return $acessos;
+}
+
+function status_consulta(){
+    $status = [
+        '0'=>'Excluida',
+        '1'=>'Pendente',
+        '2'=>'Cancelada pelo profissional',
+        '3'=>'Cancelada pelo cliente',
+        '4'=>'Atendida parcial',
+        '5'=>'Atendida c/ pendências',
+        '6'=>'Atendida/Concluida'
+    ];
+    return $status;
+}
+
+function status_pagamento(){
+    $status = [
+        '0'=>'Cancelado',
+        '1'=>'Pendente',
+        '2'=>'Pago parcial',
+        '3'=>'Pago total'
+    ];
+    return $status;
 }
 
 ?>

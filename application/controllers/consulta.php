@@ -4,23 +4,39 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Consulta extends CI_Controller {
-    
-    
-    public function nova(){
-        
+
+    public function nova() {
+
         $this->auth->checkAuth('consulta');
-        
+
         $toView = [];
-        try{
-            
+        try {
+            //carrega models
+            $this->load->model("assistente_model");
+            $this->load->model("paciente_model");
+
+            //carrega usuário
+            $operador = $this->session->userdata("operador");
+            $profs = $this->assistente_model->profissionais_do_assistente($operador);
             $usuario = $this->session->userdata("usuario");
-            if($usuario['profissional']){
-                $toView['profissional'] = 1;
+            
+            //se usuário for profissional, inclui na lista
+            if ($usuario['profissional'] > 0) {
+                $profs[] = $usuario;
             }
             
+            //carrega pacientes
+            $pacs = $this->paciente_model->getAllById();
             
+            $data = date("d-m-Y");
+            $horarios = quarter_hours();
             
-            
+
+            //carrega p/ view
+            $toView['profs'] = $profs;
+            $toView['pacs'] = $pacs;
+            $toView["data"] = $data;
+            $toView["horarios"] = $horarios;
         } catch (Exception $ex) {
             $this->msg->erro($ex->getMessage());
         } finally {
@@ -29,8 +45,10 @@ class Consulta extends CI_Controller {
             $this->load->view('inc/footer_view');
         }
     }
-    public function profissional(){
-        
+
+    public function profissional() {
+
         teste("descontinuado");
     }
+
 }

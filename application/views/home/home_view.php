@@ -15,9 +15,9 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#agenda" aria-controls="agenda" role="tab" data-toggle="tab">Agenda</a></li>
-                    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+                    <!--li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Próximos Compromissos</a></li>
                     <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li-->
                 </ul>
 
                 <!-- Tab panes -->
@@ -29,7 +29,7 @@
                         }
                         ?>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="profile">profile</div>
+                    <div role="tabpanel" class="tab-pane" id="profile"></div>
                     <!--div role="tabpanel" class="tab-pane" id="messages">messages</div>
                     <div role="tabpanel" class="tab-pane" id="settings">settings</div-->
                 </div>

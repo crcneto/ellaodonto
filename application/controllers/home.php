@@ -23,13 +23,13 @@ class Home extends CI_Controller {
                 }
                 
                 
-                $data = [
-                    3=> 3,
-                    4=> 3,
-                    12=> 3
-                ];
+                $data = [];
+                for($c = 1; $c<32;$c++){
+                    $data[$c] = $c;
+                }
+                $toView['mes'] = $mes;
                 
-                $this->load->library('calendar', $this->calendar_prefs());
+                $this->load->library('calendar', $this->calendar_prefs($mes, $ano));
                 $calendar = $this->calendar->generate($ano, $mes, $data);
                 $toView['calendar'] = $calendar;
             }
@@ -65,7 +65,7 @@ class Home extends CI_Controller {
         $this->load->view('inc/footer_view');
     }
 
-    public function calendar_prefs() {
+    public function calendar_prefs($mes, $ano) {
         $prefs['template'] = '
 
         {table_open}<table class="table table-bordered table-hover col-md-8">{/table_open}
@@ -87,9 +87,9 @@ class Home extends CI_Controller {
         {cal_cell_start_today}<td style="text-align: center; font-weight: bold;">{/cal_cell_start_today}
         {cal_cell_start_other}<td class="other-month">{/cal_cell_start_other}
 
-        {cal_cell_content}<form action="'. site_url('agenda/seleciona').'" method="post" ><input type="hidden" name="dia" value="{day}"/><input type="hidden" name="mes" value=""/><button type="submit" class="btn btn-link">{day}</button></form>{/cal_cell_content}
+        {cal_cell_content}<form action="'. site_url('agenda/seleciona').'" method="post" ><input type="hidden" name="dia" value="{day}"/><input type="hidden" name="mes" value="'.$mes.'"/><input type="hidden" name="ano" value="'.$ano.'"/><button type="submit" class="btn btn-link">{day}</button></form>{/cal_cell_content}
         
-        {cal_cell_content_today}<div class="highlight"><a href="{content}">{day}</a></div>{/cal_cell_content_today}
+        {cal_cell_content_today}<div class="highlight"><form action="'. site_url('agenda/seleciona').'" method="post" ><input type="hidden" name="dia" value="{day}"/><input type="hidden" name="mes" value="'.$mes.'"/><input type="hidden" name="ano" value="'.$ano.'"/><button type="submit" class="btn btn-link">{day}</button></form></div>{/cal_cell_content_today}
 
         {cal_cell_no_content}{day}{/cal_cell_no_content}
         {cal_cell_no_content_today}<div class="highlight">{day}</div>{/cal_cell_no_content_today}

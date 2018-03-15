@@ -301,15 +301,15 @@ class CI_Calendar {
 
 		if ($this->day_type == 'long')
 		{
-			$day_names = array('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday');
+			$day_names = array('Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado');
 		}
 		elseif ($this->day_type == 'short')
 		{
-			$day_names = array('sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat');
+			$day_names = array('Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab');
 		}
 		else
 		{
-			$day_names = array('su', 'mo', 'tu', 'we', 'th', 'fr', 'sa');
+			$day_names = array('Do', 'Se', 'Te', 'Qa', 'Qi', 'Se', 'Sa');
 		}
 
 		$days = array();
