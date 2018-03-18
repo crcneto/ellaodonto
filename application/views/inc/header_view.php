@@ -66,9 +66,7 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="<?= site_url() ?>">Inicial <span class="sr-only"></span></a></li>
-                        <!--li><a href="#">Link</a></li-->
-                        <?php if ($this->session->userdata('usuario') != null) { ?>
-                            <?php if (true) { ?>
+                        
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Consulta <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
@@ -76,7 +74,17 @@
 
                                     </ul>
                                 </li>
-                                <?php if($this->session->userdata("profissional")>0){ ?>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cadastros <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="<?= site_url('usuario') ?>">Usuário</a></li>
+                                        <li><a href="<?= site_url('paciente') ?>">Paciente</a></li>
+                                        <!--li role="separator" class="divider"></li>
+                                        <li class="dropdown-header text-center">Configurações</li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#">Config</a></li-->
+                                    </ul>
+                                </li>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profissional <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
@@ -89,36 +97,21 @@
 
                                     </ul>
                                 </li>
-                                <?php } ?>
-                            <?php } ?>
-                            <?php if ($this->auth->sec_pro_menu()) { ?>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cadastros <span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="<?= site_url('usuario') ?>">Usuário</a></li>
-                                        <li><a href="<?= site_url('paciente') ?>">Paciente</a></li>
-                                        <li><a href="<?= site_url('local') ?>">Local de Atendimento</a></li>
-                                        <!--li role="separator" class="divider"></li>
-                                        <li class="dropdown-header text-center">Configurações</li>
-                                        <li role="separator" class="divider"></li>
-                                        <li><a href="#">Config</a></li-->
-                                    </ul>
-                                </li>
-                            <?php } ?>
-                            <?php if ($this->auth->administrador()) { ?>
+                            
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administração <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="<?= site_url('area') ?>">Cadastro de Área</a></li>
-                                        <li><a href="<?= site_url('especialidade') ?>">Cadastro de Especiadade</a></li>
+                                        <li><a href="<?= site_url('administrador') ?>">Administradores</a></li>
+                                        <li><a href="<?= site_url('profissional') ?>">Profissionais</a></li>
+                                        <li><a href="<?= site_url('local') ?>">Locais de Atendimento</a></li>
+                                        <li><a href="<?= site_url('area') ?>">Áreas</a></li>
+                                        <li class="disabled"><a href="<?= site_url('') ?>">Especiadades</a></li>
                                         <!--li role="separator" class="divider"></li>
                                         <li class="dropdown-header text-center">Configurações</li>
                                         <li role="separator" class="divider"></li>
                                         <li><a href="#">Config</a></li-->
                                     </ul>
                                 </li>
-                            <?php } ?>
-                        <?php } ?>
                     </ul>
 
                     <!--Se usuário não estiver autenticado, exibe formulário de login-->

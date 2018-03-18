@@ -4,6 +4,11 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Consulta extends CI_Controller {
+    
+    public function __construct() {
+        parent::__construct();
+        $this->load->model("usuario_model");
+    }
 
     public function nova() {
 
@@ -19,6 +24,15 @@ class Consulta extends CI_Controller {
             $operador = $this->session->userdata("operador");
             $profs = $this->assistente_model->profissionais_do_assistente($operador);
             $usuario = $this->session->userdata("usuario");
+            
+            //recebe profissional
+            $profissional = $this->input->post('profissional');
+            
+            if(is_numeric($profissional)){
+                if($this->usuario_model->existe_id($profissional)){
+                    $toView['profissional'] = $this->usuario_model->get($profissional);
+                }
+            }
             
             //se usuário for profissional, inclui na lista
             if ($usuario['profissional'] > 0) {

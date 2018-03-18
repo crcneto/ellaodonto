@@ -126,6 +126,21 @@ create table assistente(
     assistente integer references usuario(id)
 );
 
+create table profissional(
+    id serial unique not null primary key,
+    usuario int references usuario(id) not null
+);
+
+create table administrador(
+    id serial unique not null primary key,
+    usuario int references usuario(id) not null
+);
+
+create table sysadmin(
+    id serial unique not null primary key,
+    usuario int references usuario(id) not null
+);
+
 create table area_profissional(
     id serial unique not null primary key,
     profissional integer references usuario(id),
@@ -146,9 +161,7 @@ create table consulta(
     ts timestamp default now(),
     status integer default 1, /*0-cancelada, 1-pendente, 2-confirmada, 3-atendida em tratamento, 4-atendida, 5-finalizada*/
     cancelamento timestamp default null,
-    cancelador integer references usuario(id),
-    
-    
+    cancelador integer references usuario(id)
 );
 
 create table compromisso(
@@ -163,6 +176,8 @@ create table compromisso(
     lembrete date,
     operador integer references usuario(id),
     ts timestamp default now(),
+    cancelamento timestamp,
+    cancelador integer references usuario(id),
     status integer default 1  /*0-excluido, 1-pendente, 2-em andamento, 3-aguardando, 4-não atendido, 5-cancelado*/
 );
 

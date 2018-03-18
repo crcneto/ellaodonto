@@ -18,23 +18,47 @@ id serial unique not null primary key,
 <div class="container">
     <div class="panel panel-primary">
         <div class="panel-heading">
+            <div class="panel-title text-center">Selecione o profissional</div>
+        </div>
+        <div class="panel-body">
+            <?php if(!isset($profissional)){ ?>
+            <form action="<?= site_url('consulta/nova')?>" method="post">
+            <div class="col-md-4">
+                <label>Selecione o profissional</label>
+                <select name="profissional" class="selectpicker" data-live-search="true">
+                    <?php if (isset($profs)) { ?>
+                        <?php if (count($profs) > 0) { ?>
+                            <?php foreach ($profs as $k => $v) { ?>
+                                <option value="<?= $v['id'] ?>"><?= $v['nome'] ?></option>
+                            <?php } ?>
+                        <?php } ?>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="col-md-1">
+                <br>
+                <button type="submit" class="btn btn-success btn-lg">Próximo</button>
+            </div>
+            </form>
+            <?php } else { ?>
+            <div class="col-md-3">
+                <div class="well well-lg">
+                    <label>Profissional</label><a href="<?= site_url('consulta/nova')?>" class="btn btn-link btn-sm"><?= gly("remove", "Definir usuário novamente")?></a>
+                    <br>
+                    <span><?=$profissional['nome']?></span>
+                </div>
+            </div>
+            <?php }  ?>
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
             <div class="panel-title text-center">Nova consulta</div>
         </div>
         <form action="" method="post">
             <div class="panel-body">
-                <div class="col-md-3">
-                    <label>Selecione o profissional</label>
-                    <select name="profissional" class="selectpicker" data-live-search="true">
-                        <?php if (isset($profs)) { ?>
-                            <?php if (count($profs) > 0) { ?>
-                                <?php foreach ($profs as $k => $v) { ?>
-                                    <option value="<?= $k ?>"><?= $v['nome'] ?></option>
-                                <?php } ?>
-                            <?php } ?>
-                        <?php } ?>
-                    </select>
-                </div>
-                <div class="col-md-3">
+                
+                <div class="col-md-4">
                     <label>Selecione o paciente</label>
                     <select name="paciente" class="selectpicker" data-live-search="true">
                         <?php if (isset($pacs)) { ?>
@@ -58,17 +82,24 @@ id serial unique not null primary key,
                         <?php } ?>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label>Dias para adequação</label>
-                    <input type="text" name="ajustavel" class="form-control" value="0" />
-                </div>
-                <div class="col-md-3">
+                
+                <div class="col-md-4">
                     <label>Queixa</label>
                     <textarea name="queixa" rows="2" class="form-control" style="resize: none;"></textarea>
                 </div>
                 <div class="col-md-3">
                     <label>Observações</label>
                     <textarea name="obs" rows="2" class="form-control" style="resize: none;"></textarea>
+                </div>
+                <div class="col-md-2">
+                    <label>Dias para adequação</label>
+                    <input type="text" name="ajustavel" class="form-control" value="0" />
+                </div>
+                <div class="col-md-3 text-center">
+                    <br>&nbsp;
+                    <br>&nbsp;
+                    
+                    <button type="submit" class="btn btn-success btn-lg">Salvar</button>
                 </div>
             </div>
         </form>

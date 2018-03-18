@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
-                        <pre><?php print_r($teste);?></pre>
+                        
                     <div class="col-md-4"></div>
                 </div>
                 <div class="row">

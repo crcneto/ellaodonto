@@ -9,75 +9,51 @@ class Profissional_model extends CI_Model{
         parent::__construct();
     }
     
-    public function getById($id){
-        $this->db->where('id', $id);
-        $r = $this->db->get('profissional');
-        if($r->num_rows()>0){
-            return $r->row_array();
-        }else{
-            return false;
-        }
-    }
-    
-    public function nomeExists($nome){
-        $this->db->where('upper(nome)', "upper('$nome')", FALSE);
-        $r = $this->db->get('profissional');
-        //$sql = "select * from area where upper(nome) = upper(?);";
-        //$r = $this->db->query($sql, [$nome]);
-        if($r->num_rows()>0){
+    public function check_prof($id_usuario){
+        $this->db->from("profissional");
+        $this->db->where("usuario", $id_usuario);
+        $q = $this->db->get();
+        $res = $q->result_array();
+        if(count($res)>0){
             return true;
         }else{
             return false;
         }
     }
     
-    public function exists($id){
-        $this->db->where('id', $id);
-        $r = $this->db->get('profissional');
-        //$sql = "select * from profissional where id=?";
-        //$r = $this->db->query($sql, [$id]);
-        if($r->num_rows()>0){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    
-    public function delete($id){
-        $this->db->where('id', $id);
-        return $this->db->delete('profissional');
-    }
-
-        public function get(){
-        $this->db->where('status', 2);
-        $res = $this->db->get('profissional');
-        return $res->result_array();
-    }
-    
-    
-    public function getAllById(){
-        $res = $this->db->get('profissional');
-        $r = $res->result_array();
-        $rr = [];
+    public function get_all_by_id(){
+        
+        $this->db->from('usuario as u');
+        $this->db->join('profissional as p', 'u.id = p.usuario');
+        $this->db->select('u.*, p.usuario');
+        $this->db->order_by('u.nome');
+        $q = $this->db->get();
+        
+        $r = $q->result_array();
+        
+        $ret = [];
         foreach ($r as $v) {
-            $rr[$v['id']] = $v;
+            $ret[$v['id']] = $v;
         }
-        return $rr;
+        return $ret;
     }
     
-    public function insert($data){
-        $this->db->insert('profissional', $data);
+    public function set_prof($id_usuario){
+        
+        $user = ["usuario"=>$id_usuario];
+        $this->db->insert('profissional', $user);
         if($this->db->affected_rows()>0){
             return true;
         }else{
             return false;
         }
+        
     }
     
-    public function update($data){
-        $id = $data['id'];
-        $this->db->where('id', $id);
-        $this->db->update('profissional', $data);
+    public function unset_prof($id_usuario){
+        $this->db->from('profissional');
+        $this->db->where('usuario', $id_usuario);
+        $this->db->delete();
         if($this->db->affected_rows()>0){
             return true;
         }else{

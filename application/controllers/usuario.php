@@ -99,7 +99,7 @@ class Usuario extends CI_Controller {
                 }
             }
             if (isset($user['id'])) {
-                if ($this->usuario_model->existe_outro_cpf($id)) {
+                if ($this->usuario_model->existe_outro_cpf($id, $cpfcnpj)) {
                     throw new Exception("Este CPF/CNPJ já está em uso por outro usuário");
                 }
             }else{
